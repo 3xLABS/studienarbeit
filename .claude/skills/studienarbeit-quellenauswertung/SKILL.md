@@ -1,10 +1,10 @@
 ---
-name: bachelorarbeit-quellenauswertung
+name: studienarbeit-quellenauswertung
 description: >
-  Phase 3 der Bachelorarbeit-Pipeline: Leitet den User durch die Quellenauswertung mit Gemini und NotebookLM. Der User hat seine Quellen bereits in einem NotebookLM-Notebook gesammelt (Phase 2). Jetzt öffnet er Gemini im Browser, verknüpft das Notebook, und wertet die Quellen dort mit vorbereiteten Prompts von Claude aus. Claude liefert die Prompts und den Gem-Systemprompt, der User führt alles im Browser durch, und Claude übernimmt die Nachbearbeitung des Gemini-Outputs ins Writer-Format. Spart Token, weil die eigentliche Analyse bei Gemini läuft. Nutze bei: "Quellen auswerten", "Literatur analysieren", "was sagen die Quellen zu", "Quellenauswertung", "Literaturanalyse", "Quellen zusammenfassen", "Quellen vergleichen", "was steht in den Papers", "extrahiere die Kernaussagen", "erstelle eine Quellenübersicht", "werte die Quellen aus", "Gem erstellen", "Gemini Auswertung". Nicht für Quellensuche — dafür gibt es `bachelorarbeit-recherche`.
+  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): Leitet den User durch die Quellenauswertung mit Gemini und NotebookLM. Der User hat seine Quellen bereits in einem NotebookLM-Notebook gesammelt (Phase 2). Jetzt öffnet er Gemini im Browser, verknüpft das Notebook, und wertet die Quellen dort mit vorbereiteten Prompts von Claude aus. Claude liefert die Prompts und den Gem-Systemprompt, der User führt alles im Browser durch, und Claude übernimmt die Nachbearbeitung des Gemini-Outputs ins Writer-Format. Falls `empirie: true` in Fortschritt.md: Paralleler Empirik-Strang für Analyse von Interviews, Fragebögen, Beobachtungen. Spart Token, weil die eigentliche Analyse bei Gemini läuft. Nutze bei: "Quellen auswerten", "Literatur analysieren", "was sagen die Quellen zu", "Quellenauswertung", "Literaturanalyse", "Quellen zusammenfassen", "Quellen vergleichen", "was steht in den Papers", "extrahiere die Kernaussagen", "Interviews auswerten", "Fragebogen analysieren", "Empirik auswerten", "erstelle eine Quellenübersicht", "werte die Quellen aus", "Gem erstellen", "Gemini Auswertung". Nicht für Quellensuche — dafür gibt es `studienarbeit-recherche`.
 ---
 
-# Bachelorarbeit — Phase 3: Quellenauswertung (via Gemini)
+# Studienarbeit — Phase 3: Quellenauswertung (via Gemini)
 
 Die Quellenauswertung läuft **nicht in Claude**, sondern in **Gemini** — der User bedient Gemini und NotebookLM selbstständig im Browser. Das spart Token und nutzt Geminis Stärke: über die NotebookLM-Verknüpfung hat Gemini direkten Zugriff auf alle indexierten Quellen.
 
@@ -39,7 +39,7 @@ Bevor du startest, lies:
 - `02-quellen/Forschungsfrage.md` oder `02-quellen/BA_Forschungsfrage.md` — Worauf arbeitet alles hin?
 - `02-quellen/Recherche_Kapitel_[X]_*.md` — Welche Quellen liegen vor? (aus Phase 2)
 
-Falls die Recherche für das Kapitel noch nicht abgeschlossen ist → zurück zu Phase 2 (`bachelorarbeit-recherche`).
+Falls die Recherche für das Kapitel noch nicht abgeschlossen ist → zurück zu Phase 2 (`studienarbeit-recherche`).
 
 ### Schritt 2: NotebookLM + Gemini verknüpfen (einmalig)
 
@@ -74,7 +74,7 @@ Gib dem User diese Anleitung:
 Gib dem User dann den Inhalt der Datei `references/gem-systemprompt.md` als Copy-Paste-Block für das Anweisungen-Feld. Lies dazu:
 
 ```
-.claude/skills/bachelorarbeit-quellenauswertung/references/gem-systemprompt.md
+.claude/skills/studienarbeit-quellenauswertung/references/gem-systemprompt.md
 ```
 
 #### Weg B: Direkt in NotebookLM chatten (einfacher, aber weniger steuerbar)
@@ -240,7 +240,7 @@ Prüfe gegen das Recherche-Protokoll (`02-quellen/Recherche_Kapitel_[X]_*.md`):
 - Gibt es Lücken, die eine Nachrecherche (Phase 2) erfordern?
 
 Falls ja, sage dem User:
-> Für [Aspekt X] fehlen Quellen. Du solltest mit dem Recherche-Skill (`bachelorarbeit-recherche`) nachlegen, bevor wir zum Schreiben übergehen.
+> Für [Aspekt X] fehlen Quellen. Du solltest mit dem Recherche-Skill (`studienarbeit-recherche`) nachlegen, bevor wir zum Schreiben übergehen.
 
 ### Schritt 7: Fortschritt.md aktualisieren
 
@@ -281,9 +281,222 @@ Wenn die Auswertung für ein Kapitel abgeschlossen ist:
 > **Nächster Schritt — Phase 4: Schreiben.**
 > Sag einfach: „Schreib mir Kapitel [X]" — der Writer-Skill greift auf Forschungsfrage, Gliederung und die Quellenauswertung zurück.
 
+## Empirik-Strang — Auswertung eigener Erhebungen
+
+Falls die Meta-Block in `04-fortschritt/Fortschritt.md` das Flag `empirie: true` enthält, nutzt deine Studienarbeit auch Primärforschung — Interviews, Fragebögen, Beobachtungen, Analysen. Diese Daten müssen parallel zur Literaturauswertung (oder danach) strukturiert ausgewertet werden.
+
+**Aktivierungsbedingung:** Empirik-Strang startet nur, wenn:
+1. Meta-Block enthält `empirie: true`
+2. Eingabedateien existieren: `02-quellen/Empirik_[Kapitel_X]_Rohdaten.md` (transkribierte Interviews, Fragebogenergebnisse, Codierungstabellen, etc.)
+3. Gliederung sieht Empiriekapitel vor (z.B. "Erhebung und Methodik", "Ergebnisse aus Primärforschung")
+
+**Claudes Rolle im Empirik-Strang:**
+- Systemanweisung für Gemini bereitstellen (mit methodischem Framework, z.B. Mayring-Paraphrasentechnik für qualitativ, deskriptive Statistik für quantitativ)
+- 6 kapitelspezifische Prompts generieren (je 3 für qualitativ, 3 für quantitativ/mixed)
+- Gemini-Output nachbearbeiten ins Writer-Format
+
+**Wichtig:** Der User wertet NICHT die Rohdaten selbst in Gemini aus — Gemini bekommt strukturierte Eingabedateien und wendet darauf Analysemethoden an (Codierung, Kategorienbildung, Statistik).
+
+### Empirik-Workflow
+
+```
+Claude                          User (im Browser)                Gemini
+──────                          ─────────────────                ──────
+1. Gem-Systemprompt           User erstellt Gem in Gemini
+   (mit Empirik-Framework) +   User lädt Rohdaten-PDF/Datei
+   Schritt-für-Schritt     →   ins Gem-Context
+   Anleitung
+
+2. Empirik-Prompts            User gibt Prompts ein           → Gemini codiert/kategorisiert/
+   (Q1-Q3, S1-S3)         →                                    tabelliert
+                                User kopiert Output            →   
+3. Nachbearbeitung           ←  User gibt Output an Claude
+4. Fertige Auswertung        →  Datei in 02-quellen/Empirik_
+```
+
+### Schritt E.1: Rohdaten-Vorbereitung
+
+Der User muss die Rohdaten vorher strukturiert haben (nicht von dir gefordert, aber du weist darauf hin):
+
+- **Interviews:** Transkript in `02-quellen/Empirik_[Kapitel_X]_Interviews_Transkript.md` (mit Sprecherwechsel, Zeilenummern)
+- **Fragebögen:** Ergebnistabelle in `02-quellen/Empirik_[Kapitel_X]_Fragebogen_Ergebnisse.md` (z.B. CSV, mit offene/geschlossene Antworten)
+- **Beobachtungen:** Protokoll in `02-quellen/Empirik_[Kapitel_X]_Beobachtung_Protokoll.md` (chronologisch, mit Kategorien)
+
+### Schritt E.2: Gem-Systemprompt für Empirik
+
+Lies (oder generiere zielgerichtet basierend auf der Methode aus der Gliederung):
+
+```
+.claude/skills/studienarbeit-quellenauswertung/references/gem-systemprompt-empirik.md
+```
+
+Falls die Datei nicht existiert, generiere einen ad-hoc Systemprompt, z.B.:
+
+```
+Du bist eine Forschungsmethoden-KI, spezialisiert auf qualitative und quantitative Datenanalyse.
+Nutze für QUALITATIVE Daten: Mayring-Paraphrasentechnik oder Kuckartz-Kodierverfahren.
+Nutze für QUANTITATIVE Daten: Deskriptive Statistik (Häufigkeiten, Mittelwerte, Standardabweichung).
+Nutze für MIXED-METHODS: Ergebnisse triangulieren.
+Gib ALLE Ergebnisse mit Begründung, Quellenangabe (Zeilennummer, Fragebogennummer) und wissenschaftlichem Kontext aus.
+```
+
+### Schritt E.3: Empirik-Prompts (Q1-Q3, S1-S3)
+
+Generiere konkrete, kapitelspezifische Prompts. Der User kopiert diese in den Gem und erhält strukturierte Outputs.
+
+#### Qualitative Prompts (Q1–Q3)
+
+**Q1 — Offene Codierung**
+
+```
+Analysiere die Interviews in [Dateiname] mit offener Kodierung (nach Mayring / Kuckartz).
+
+Gehe Absatz für Absatz durch und extrahiere:
+1. Paraphrase (Kernaussage in einer Zeile)
+2. Generalisierung (abstrahiert auf Konzeptebene)
+3. Code (1–3 Wörter Kategorie)
+
+Gib die Ergebnisse als Tabelle aus: Zeile | Zitat | Paraphrase | Generalisierung | Code
+
+Achte besonders auf [Themen aus Forschungsfrage].
+```
+
+**Q2 — Kategorienbildung**
+
+```
+Basierend auf den Codes aus Q1: Gruppiere die Codes in Kategorien und Subkategorien.
+
+Gib aus:
+1. Kategorie
+2. Definition (wozu gehört diese Kategorie?)
+3. Anzahl Codes
+4. Exemplarische Zitate (mit Zeilennummer)
+
+Format: Markdown-Liste.
+```
+
+**Q3 — Thematische Synthese**
+
+```
+Erstelle eine thematische Synthese basierend auf den Kategorien aus Q2.
+
+Beschreibe:
+1. Zentrale Themen (mit Häufigkeit/Relevanz)
+2. Narrativen und Muster
+3. Spannungen oder Widersprüche zwischen Interviews
+4. Implikationen für [Kapitelthema]
+
+Gib als Markdown-Prosa mit Quellenbelegen aus.
+```
+
+#### Quantitative Prompts (S1–S3)
+
+**S1 — Deskriptive Statistik**
+
+```
+Analysiere die Fragebogenergebnisse in [Dateiname] deskriptiv.
+
+Für jede Frage berechne:
+1. Häufigkeitsverteilung (absolute und prozentual)
+2. Bei Skalen: Mittelwert, Standardabweichung, Min/Max
+3. Grafische Darstellung (nur Text-ASCII oder Markdown-Tabelle)
+
+Gib jede Frage mit Ergebnissen einzeln aus.
+```
+
+**S2 — Filtergruppen-Analyse**
+
+```
+Führe eine Filtergruppen-Analyse durch nach [Filterkriterium: z.B. Erfahrung, Alter, Branche].
+
+Vergleiche die Antworten zwischen Gruppen:
+1. Unterschied in Häufigkeit/Mittelwert
+2. Größe des Unterschieds (z.B. prozentuale Differenz)
+3. Mögliche Interpretationen
+
+Tabelle pro Frage: Filtergruppe | Ergebnis | Differenz | Interpretation
+```
+
+**S3 — Korrelationen oder Zusammenhänge**
+
+```
+Prüfe auf Zusammenhänge zwischen Fragen/Dimensionen in [Dateiname]:
+
+Für jedes Fragenpaar:
+1. Gemeinsame Muster erkennen
+2. Gegensätzliche Antwortmuster
+3. Hypothesenbildung (warum könnte X mit Y korrelieren?)
+
+Tabelle: Frage A | Frage B | Gemeinsames Muster | Stärke | Interpretation
+```
+
+### Schritt E.4: Nachbearbeitung Empirik-Output
+
+Wenn der User die Gemini-Outputs zurückbringt:
+
+1. **Formatierung:** Tabellen in sauberes Markdown, ASCII-Grafiken in Markdown-Tabellen
+2. **Quellenbelege:** Zeilennummern / Fragebogennummern konsistent halten
+3. **Methodenbegründung:** Prüfe, ob Gemini die Methode (Mayring, Kuckartz, deskriptive Statistik) korrekt angewendet hat
+4. **Fehlende Analysen:** Falls Gemini eine Methode nicht vollständig ausgeführt hat, schlage einen Nach-Prompt vor
+5. **Qualitätsflag:** Markiere mit `[METHODE PRÜFEN]`, falls die Kodierung oder Analyse fragwürdig wirkt
+6. **Datei erstellen:** Speichere als `02-quellen/Empirik_Auswertung_Kapitel_[X]_[Kurztitel].md`
+
+### Schritt E.5: Empirik-Auswertung-Template
+
+Das Ausgabedokument sollte folgendes Format haben:
+
+```markdown
+# Empirische Auswertung Kapitel [X]: [Kapiteltitel]
+
+**Empirische Methode:** [Qualitativ / Quantitativ / Mixed]
+**Forschungsfrage:** [[Forschungsfrage]]
+**Kapitel-Focus:** [Welche Aspekte der Forschungsfrage werden durch Empirie untersucht?]
+
+## 1. Datengrundlage
+- Quelle(n): [Interview / Fragebogen / Beobachtung / Kombiniert]
+- Anzahl Datensätze: [n=...]
+- Zeitraum: [wann erhoben?]
+
+## 2. Methodisches Vorgehen
+[Beschreibung der Analysemethode]
+
+## 3. Offene Codierung / Deskriptive Statistik
+[Tabelle oder Auswertung]
+
+## 4. Kategorienbildung / Filtergruppen-Vergleiche
+[Tabelle oder Auswertung]
+
+## 5. Thematische Synthese / Korrelationsanalyse
+[Prosa mit Quellenbelegen]
+
+## 6. Implikationen für dieses Kapitel
+[Was bedeuten diese Ergebnisse für die Argumentation?]
+
+## 7. Offene Stellen
+[`[METHODE PRÜFEN]`, `[QUELLEN ERGÄNZEN]`, etc.]
+
+## Datensätze und Codes
+[Anhang mit vollständiger Codierungstabelle / Statistiktabelle]
+```
+
+### Schritt E.6: Literatur + Empirie kombinieren
+
+Falls ein Kapitel SOWOHL Literatur-Quellenauswertung (Phase 3, Strang A) ALS AUCH Empirik-Auswertung (Phase 3, Strang E) braucht:
+
+- Literatur-Auswertung und Empirik-Auswertung sind **zwei separate Dateien**
+- Der Writer-Skill (Phase 4) nutzt **beide** für das Kapitel — erst Literatur-Fundament, dann Empirik-Ergebnisse, dann Diskussion
+- Im Fortschritt.md notieren: Kapitel [X] → Phase 3a (Literatur-Auswertung) ✓ + Phase 3b (Empirik-Auswertung) ✓ → Phase 4 (Writer)
+
+### Zusammenspiel mit anderen Skills (erweitert)
+
+- **Vor Phase 3, Strang E** → User hat Daten erhoben und in `02-quellen/` dokumentiert (nicht Phase 2 — das ist nur Literaturrecherche)
+- **Phase 3a (Literatur)** + **Phase 3b (Empirik)** → Können parallel laufen oder sequenziell, je nach Kapitel
+- **Nach Phase 3** → `studienarbeit-writer` nutzt BEIDE Auswertungen
+- **Beim Review (Phase 5)** → Reviewer prüft korrekte Datenanalyse-Methoden und Quellenintegration
+
 ## Zusammenspiel mit anderen Skills
 
-- **Vor Phase 3** → `bachelorarbeit-recherche` sammelt die Quellen im NotebookLM-Notebook (User im Browser)
-- **Nach Phase 3** → `bachelorarbeit-writer` nutzt die Auswertung als Schreibgrundlage
+- **Vor Phase 3** → `studienarbeit-recherche` sammelt die Quellen im NotebookLM-Notebook (User im Browser)
+- **Nach Phase 3** → `studienarbeit-writer` nutzt die Auswertung als Schreibgrundlage
 - **Zurück zu Phase 2** → Bei unzureichender Quellenlage Nachrecherche starten (User recherchiert selbst in NotebookLM im Browser)
 - **Beim Review (Phase 5)** → Der Reviewer prüft, ob die Quellen korrekt eingearbeitet wurden

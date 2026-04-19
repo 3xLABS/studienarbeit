@@ -1,12 +1,20 @@
 ---
-name: bachelorarbeit-planung
+name: studienarbeit-planung
 description: >
-  Phase 1 der Bachelorarbeit-Pipeline: Themenfindung, Forschungsfrage, Gliederung mit Seitenzahlen, Zeitplanung. Legt das inhaltliche Fundament der Arbeit, bevor Recherche und Schreiben beginnen. Übergibt sauber an den Recherche-Skill (Phase 2). Nutze bei: "ich will eine Arbeit schreiben", "Thema finden", "Forschungsfrage entwickeln", "Gliederung erstellen", "wie fange ich an", "ich hab noch nichts", "Bachelorarbeit planen", "Thesis starten", "wo anfangen", "Zeitplan", "Meilensteine". Nicht für Quellensuche oder Quellenauswertung — dafür gibt es die Skills `bachelorarbeit-recherche` und `bachelorarbeit-quellenauswertung`.
+  Phase 1 der Studienarbeiten-Pipeline: Themenfindung, Forschungsfrage, Gliederung mit Seitenzahlen, Zeitplanung — typen-spezifisch für Hausarbeit, Seminararbeit, Studienarbeit, Bachelorarbeit oder Masterarbeit. Legt das inhaltliche Fundament der Arbeit, bevor Recherche und Schreiben beginnen. Übergibt sauber an den Recherche-Skill (Phase 2). Nutze bei: "ich will eine Arbeit schreiben", "Thema finden", "Forschungsfrage entwickeln", "Gliederung erstellen", "wie fange ich an", "ich hab noch nichts", "Hausarbeit planen", "Bachelorarbeit planen", "Masterarbeit planen", "Thesis starten", "wo anfangen", "Zeitplan", "Meilensteine". Nicht für Quellensuche oder Quellenauswertung — dafür gibt es die Skills `studienarbeit-recherche` und `studienarbeit-quellenauswertung`.
 ---
 
-# Bachelorarbeit-Planung — Phase 1 der Pipeline
+# Studienarbeit-Planung — Phase 1 der Pipeline
 
-Du bist der Einstiegspunkt der Pipeline. Deine Aufgabe: **das inhaltliche Fundament der Arbeit legen**, auf dem später recherchiert, geschrieben und reviewt wird. Konkret:
+Du bist der Einstiegspunkt der Pipeline. Deine Aufgabe: **das inhaltliche Fundament der Arbeit legen**, auf dem später recherchiert, geschrieben und reviewt wird.
+
+## Voraussetzung: Meta-Block vorhanden
+
+**Zuerst lies** `04-fortschritt/Fortschritt.md` und prüfe den `## Meta`-Block (aus Phase 0 Onboarding). Du brauchst **Arbeitstyp, Seitenumfang, Abgabedatum, Zitierstil, Empirie-Flag** für typen-spezifische Planung.
+
+Falls der Meta-Block fehlt oder unvollständig ist → verweise auf `studienarbeit-onboarding`.
+
+Konkret:
 
 1. **Thema** — Wenn noch nicht vorhanden, eines finden und eingrenzen
 2. **Forschungsfrage** — Scharf, beantwortbar, strukturgebend formulieren
@@ -15,19 +23,19 @@ Du bist der Einstiegspunkt der Pipeline. Deine Aufgabe: **das inhaltliche Fundam
 5. **Zeitplanung** — Rückwärtsplanung vom Abgabedatum, Meilensteine setzen
 6. **Handoff** — Sauber an den Recherche-Skill übergeben
 
-**Wichtig — was NICHT zu diesem Skill gehört:** Die eigentliche Quellenrecherche und die Quellenauswertung sind **eigene Phasen** mit **eigenen Skills**. Der Planungs-Skill berührt keine Quellen jenseits der Frage "wo wird später ungefähr was an Literatur gebraucht". Wenn die Planung steht, übergibst du an `bachelorarbeit-recherche`.
+**Wichtig — was NICHT zu diesem Skill gehört:** Die eigentliche Quellenrecherche und die Quellenauswertung sind **eigene Phasen** mit **eigenen Skills**. Der Planungs-Skill berührt keine Quellen jenseits der Frage "wo wird später ungefähr was an Literatur gebraucht". Wenn die Planung steht, übergibst du an `studienarbeit-recherche`.
 
 ## Die Pipeline im Überblick
 
 ```
-Phase 0: Onboarding         → bachelorarbeit-onboarding
-Phase 1: Planung            → bachelorarbeit-planung              ← DU BIST HIER
-Phase 2: Recherche          → bachelorarbeit-recherche
-Phase 3: Quellenauswertung  → bachelorarbeit-quellenauswertung
-Phase 4: Schreiben          → bachelorarbeit-writer
-Phase 5: Review             → bachelorarbeit-reviewer
-Phase 6: Überarbeitung      → bachelorarbeit-ueberarbeitung
-Phase 7: Finalisierung      → bachelorarbeit-finalisierung
+Phase 0: Onboarding         → studienarbeit-onboarding
+Phase 1: Planung            → studienarbeit-planung              ← DU BIST HIER
+Phase 2: Recherche          → studienarbeit-recherche
+Phase 3: Quellenauswertung  → studienarbeit-quellenauswertung
+Phase 4: Schreiben          → studienarbeit-writer
+Phase 5: Review             → studienarbeit-reviewer
+Phase 6: Überarbeitung      → studienarbeit-ueberarbeitung
+Phase 7: Finalisierung      → studienarbeit-finalisierung
 ```
 
 ## Ausgangslage klären
@@ -46,6 +54,20 @@ Frage zusätzlich ab:
 - **Hochschule / Lehrstuhl** — für formale Vorgaben
 - **Seitenumfang** — typisch Bachelorarbeit 30–50 Seiten
 - **Abgabedatum** — für die Zeitplanung in Schritt 5
+
+## Schritt 0.5: Arbeitstyp & typen-spezifische Gliederung
+
+Bevor du in die inhaltliche Planung gehst, kläre den Arbeitstyp. Lies dazu die **Meta-Block** in `04-fortschritt/Fortschritt.md` (Zeilen unter `# Meta-Block`). Dort findest du:
+- `arbeitstyp:` (Hausarbeit / Seminararbeit / Bachelorarbeit / Masterarbeit)
+- `seitenzahl_ziel:` (z. B. 15 für Hausarbeit, 20–25 für Seminararbeit, 40–60 für Bachelor, 60–80 für Master)
+- `zitierstil:` (Harvard / Deutsche Zitierweise / Chicago-Notes)
+- Ggf. `empirie: true` (wenn Primärforschung geplant ist)
+
+**Nutze diese Metadaten, um die Gliederung anzupassen:**
+- Konsultiere `_foundation/arbeitstypen.md` für typ-spezifische Kapitelstrukturen und Seitenvorgaben.
+- Für Hausarbeit/Seminararbeit: Kürzer, fokussiert, oft nur 4–5 Kapitel.
+- Für Bachelorarbeit/Masterarbeit: Ausführlicher, 6–8 Kapitel mit Theorie, Methodik, Ergebnisse, Diskussion.
+- Kapitel-Nummerierung und Seitenzahl-Budgets ergeben sich aus der Vorlage in `arbeitstypen.md`.
 
 ## Schritt 1: Themenfindung
 
@@ -191,14 +213,14 @@ Erstelle eine Rückwärtsplanung basierend auf dem Abgabedatum und initialisiere
 
 | Phase | Skill | Status | Datum |
 |---|---|---|---|
-| 0 Onboarding | bachelorarbeit-onboarding | ✅ Abgeschlossen | [Datum] |
-| 1 Planung | bachelorarbeit-planung | ✅ Abgeschlossen | [Heute] |
-| 2 Recherche | bachelorarbeit-recherche | ⬜ Ausstehend | — |
-| 3 Quellenauswertung | bachelorarbeit-quellenauswertung | ⬜ Ausstehend | — |
-| 4 Schreiben | bachelorarbeit-writer | ⬜ Ausstehend | — |
-| 5 Review | bachelorarbeit-reviewer | ⬜ Ausstehend | — |
-| 6 Überarbeitung | bachelorarbeit-ueberarbeitung | ⬜ Ausstehend | — |
-| 7 Finalisierung | bachelorarbeit-finalisierung | ⬜ Ausstehend | — |
+| 0 Onboarding | studienarbeit-onboarding | ✅ Abgeschlossen | [Datum] |
+| 1 Planung | studienarbeit-planung | ✅ Abgeschlossen | [Heute] |
+| 2 Recherche | studienarbeit-recherche | ⬜ Ausstehend | — |
+| 3 Quellenauswertung | studienarbeit-quellenauswertung | ⬜ Ausstehend | — |
+| 4 Schreiben | studienarbeit-writer | ⬜ Ausstehend | — |
+| 5 Review | studienarbeit-reviewer | ⬜ Ausstehend | — |
+| 6 Überarbeitung | studienarbeit-ueberarbeitung | ⬜ Ausstehend | — |
+| 7 Finalisierung | studienarbeit-finalisierung | ⬜ Ausstehend | — |
 
 ## Kapitelübersicht
 
@@ -233,7 +255,7 @@ Ausstehend → Erster Entwurf → Reviewed → Überarbeitet → Final
 - Quellenrecherche steht als nächstes an (Phase 2)
 
 ## Nächste Schritte
-- Phase 2 starten: `bachelorarbeit-recherche` — systematische Quellenrecherche, beginnend mit dem Theoriekapitel
+- Phase 2 starten: `studienarbeit-recherche` — systematische Quellenrecherche, beginnend mit dem Theoriekapitel
 ```
 
 ## Schritt 6: Handoff an Phase 2 (Recherche)
@@ -257,7 +279,7 @@ Wenn alle Schritte abgeschlossen sind, prüfe die Bereitschaft und übergib saub
 > - Einen Zeitplan bis zur Abgabe
 >
 > **Nächster Schritt — Phase 2: Quellenrecherche.**
-> Starte den `bachelorarbeit-recherche`-Skill. Er sammelt systematisch wissenschaftliche Quellen — kapitelweise, mit NotebookLM. Empfehlung: Beginne mit dem Theoriekapitel, da es die begriffliche Grundlage der Arbeit legt.
+> Starte den `studienarbeit-recherche`-Skill. Er sammelt systematisch wissenschaftliche Quellen — kapitelweise, mit NotebookLM. Empfehlung: Beginne mit dem Theoriekapitel, da es die begriffliche Grundlage der Arbeit legt.
 
 **Wichtig:** Versuche nicht, in diesem Skill selbst schon Quellen zu suchen oder auszuwerten. Das ist explizit Aufgabe der Phasen 2 und 3. Saubere Phasentrennung ist der ganze Sinn dieses Refactorings.
 
@@ -273,6 +295,6 @@ Nutze sie als Referenz für Format und Tiefe.
 
 ## Zusammenspiel mit anderen Skills
 
-- **Vor Phase 1** → `bachelorarbeit-onboarding` prüft Voraussetzungen
-- **Nach Phase 1** → `bachelorarbeit-recherche` übernimmt und sammelt Quellen
+- **Vor Phase 1** → `studienarbeit-onboarding` prüft Voraussetzungen
+- **Nach Phase 1** → `studienarbeit-recherche` übernimmt und sammelt Quellen
 - **Quer zu Phase 1** → Zeitplanung wird in allen folgenden Phasen referenziert (Fortschritt.md ist die gemeinsame Quelle der Wahrheit)

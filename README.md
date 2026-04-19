@@ -1,6 +1,6 @@
-# Bachelorarbeit-Pipeline
+# Studienarbeiten-Pipeline
 
-Ein KI-gestütztes Skill-System für Bachelorarbeiten im Fachbereich BWL. Acht spezialisierte Claude-Skills arbeiten als Pipeline zusammen — von der Themenfindung bis zur abgabefertigen Word-Datei.
+Ein KI-gestütztes Skill-System für **wissenschaftliche Arbeiten aller Art** — Hausarbeit, Seminararbeit, Studienarbeit, Bachelorarbeit, Masterarbeit. Acht spezialisierte Claude-Skills arbeiten als Pipeline zusammen — von der Themenfindung bis zur abgabefertigen Word-Datei. Die Pipeline passt Tiefe, Umfang, Struktur und Zitierstil dynamisch an den im Onboarding gewählten Arbeitstyp an.
 
 ## Überblick
 
@@ -18,28 +18,28 @@ Die Pipeline verteilt die Arbeit auf mehrere Tools, die jeweils das tun, was sie
 
 ## Die acht Skills
 
-### 0. bachelorarbeit-onboarding
+### 0. studienarbeit-onboarding
 Prüft die Voraussetzungen: richtiger Ordner, Google-Account für NotebookLM & Gemini, Sub-Skills vorhanden, Internetzugang, bestehender Fortschritt.
 
-### 1. bachelorarbeit-planung
+### 1. studienarbeit-planung
 Der Einstiegspunkt. Bringt dich vom groben Thema zur schreibfertigen Ausgangslage: Forschungsfrage, Gliederung mit Seitenzahlen, Quellenrecherche und -auswertung. Orchestriert den Multi-Tool-Workflow und generiert Copy-Paste-Prompts für Perplexity und Gemini.
 
-### 2. bachelorarbeit-recherche
+### 2. studienarbeit-recherche
 Systematische Quellensuche, kapitelweise. Claude liefert Strategie und Suchbegriffe, der User arbeitet selbstständig in NotebookLM im Browser.
 
-### 3. bachelorarbeit-quellenauswertung
+### 3. studienarbeit-quellenauswertung
 Leitet die Quellenauswertung mit Gemini (via Gem + NotebookLM) an. Claude liefert die Gem-Systemprompt, kapitelspezifische Prompts und übernimmt die Nachbearbeitung ins Writer-Format — die eigentliche Analyse läuft in Gemini, um Token zu sparen.
 
-### 4. bachelorarbeit-writer
+### 4. studienarbeit-writer
 Schreibt einzelne Kapitel auf Basis von Forschungsfrage, Gliederung und Quellenauswertung. Produziert wissenschaftlichen Fließtext im Harvard-Zitierstil mit Claim-Reason-Evidence-Argumentation. Berücksichtigt Nachbarkapitel und kapiteltyp-spezifische Anforderungen.
 
-### 5. bachelorarbeit-reviewer
+### 5. studienarbeit-reviewer
 Reviewt ein fertiges Kapitel aus Professorensicht. Bewertet Struktur, Argumentation, Quellenarbeit, Sprache und Formalia. Priorisiert Feedback in Muss/Sollte/Optional.
 
-### 6. bachelorarbeit-ueberarbeitung
+### 6. studienarbeit-ueberarbeitung
 Arbeitet Review- oder Betreuer-Feedback systematisch in das Kapitel ein. Bewahrt die Textidentität, stärkt Argumente, ergänzt Quellen, harmonisiert mit der Gesamtarbeit.
 
-### 7. bachelorarbeit-finalisierung
+### 7. studienarbeit-finalisierung
 Prüft die gesamte Arbeit als Einheit (roter Faden, Begriffe, Zitierung, Übergänge), erstellt das Literaturverzeichnis und formatiert alles als abgabefertige Word-Datei (.docx).
 
 ## Gesamtablauf
@@ -68,25 +68,25 @@ Phase 7: FINALISIERUNG → Gesamtcheck → Literaturverzeichnis → Word-Datei
 ### Schritt 1: Repository klonen
 
 ```bash
-git clone https://github.com/3xLABS/bachelor.git
+git clone https://github.com/3xLABS/studienarbeit.git
 ```
 
 ### Schritt 2: In Claude laden
 
 1. Öffne **Claude Desktop** (Cowork-Mode) oder **Claude Code**
-2. Wähle den `bachelor/`-Ordner als Arbeitsverzeichnis
+2. Wähle den `studienarbeit/`-Ordner als Arbeitsverzeichnis
 3. Fertig — Claude erkennt `.claude/CLAUDE.md` und alle Skills automatisch
 
 Alle Skills liegen in `.claude/skills/` und werden von Claude beim Ordner-Öffnen sofort geladen. Kein manuelles Kopieren nötig.
 
 ### Schritt 3: In Obsidian öffnen (optional)
 
-Öffne den `bachelor/`-Ordner als Obsidian-Vault: Obsidian → Vault öffnen → Ordner auswählen.
+Öffne den `studienarbeit/`-Ordner als Obsidian-Vault: Obsidian → Vault öffnen → Ordner auswählen.
 
 ### Schritt 4: Loslegen
 
 Sage Claude einfach:
-> „Ich will eine Bachelorarbeit schreiben."
+> „Ich will eine Bachelorarbeit / Hausarbeit / Masterarbeit schreiben."
 
 oder:
 > „Hilf mir bei der Forschungsfrage zu [dein Thema]."
@@ -96,23 +96,23 @@ Claude startet automatisch den Planungs-Skill.
 ## Ordnerstruktur
 
 ```
-bachelor/                        ← Obsidian Vault Root + Git-Repo
+studienarbeit/                   ← Obsidian Vault Root + Git-Repo
 ├── .claude/
 │   ├── CLAUDE.md                ← Pipeline-Orchestrierung (liest Claude automatisch)
 │   └── skills/                  ← Alle 8 Skills (werden automatisch erkannt)
-│       ├── bachelorarbeit-onboarding/
-│       ├── bachelorarbeit-planung/
-│       ├── bachelorarbeit-recherche/
-│       ├── bachelorarbeit-quellenauswertung/
-│       ├── bachelorarbeit-writer/
-│       ├── bachelorarbeit-reviewer/
-│       ├── bachelorarbeit-ueberarbeitung/
-│       ├── bachelorarbeit-finalisierung/
+│       ├── studienarbeit-onboarding/
+│       ├── studienarbeit-planung/
+│       ├── studienarbeit-recherche/
+│       ├── studienarbeit-quellenauswertung/
+│       ├── studienarbeit-writer/
+│       ├── studienarbeit-reviewer/
+│       ├── studienarbeit-ueberarbeitung/
+│       ├── studienarbeit-finalisierung/
 │       └── notebooklm/
 ├── 01-docs/
 │   ├── Gliederung.md            ← Deine Gliederung (wird in Phase 1 erstellt)
 │   ├── BA-Gliederung-Muster.md  ← Vorlage mit Beispielgliederung
-│   └── BA-Struktur-Muster.md    ← Standard-BWL-Struktur mit Seitenverteilung
+│   └── *-Muster.md              ← Vorlagen für Gliederung/Struktur (typen-spezifisch)
 ├── 02-quellen/
 │   ├── Forschungsfrage.md       ← Deine Forschungsfrage (wird in Phase 1 erstellt)
 │   ├── Quellenverzeichnis.md    ← Alle gesammelten Quellen
@@ -129,7 +129,7 @@ bachelor/                        ← Obsidian Vault Root + Git-Repo
 ├── 05-review/
 │   └── Review_Kapitel_*.md      ← Reviews
 ├── 06-final/
-│   └── bachelorarbeit_final.docx  ← Abgabe-Datei
+│   └── studienarbeit_final.docx   ← Abgabe-Datei
 └── Prompts.md                   ← 17 Copy-Paste-Prompts für alle Tools
 ```
 
@@ -228,4 +228,4 @@ Frei nutzbar für persönliche und akademische Zwecke.
 
 ---
 
-Erstellt mit der [Bachelorarbeit-Pipeline](https://github.com/3xLABS/bachelor) von [3xLABS](https://3xlabs.xyz).
+Erstellt mit der [Studienarbeiten-Pipeline](https://github.com/3xLABS/studienarbeit) von [3xLABS](https://3xlabs.xyz).

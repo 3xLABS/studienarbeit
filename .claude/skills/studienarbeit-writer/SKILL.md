@@ -1,10 +1,10 @@
 ---
-name: bachelorarbeit-writer
+name: studienarbeit-writer
 description: >
-  Schreibt einzelne Kapitel einer Bachelorarbeit im wissenschaftlichen Stil eines fortgeschrittenen BWL-Studenten. Nutze diesen Skill immer wenn jemand ein Kapitel, einen Abschnitt oder Text für eine Bachelorarbeit, Hausarbeit, Seminararbeit oder wissenschaftliche Arbeit schreiben möchte. Auch bei Anfragen wie "schreib mir das Kapitel über X", "Theorieteil schreiben", "Diskussion formulieren", "Einleitung der Bachelorarbeit", "Fazit schreiben", "Literaturüberblick erstellen", "wissenschaftlichen Text verfassen", "Kapitel ausformulieren", "Thesis schreiben", "academic writing", "Abschnitt für meine Arbeit" oder wenn jemand Gliederung, Forschungsfrage und Quellen bereitstellt und daraus Fließtext generiert haben möchte. Selbst wenn der User nur sagt "schreib mir was zu Thema X im Kontext meiner Arbeit" oder eine Gliederung mit Seitenzahlen teilt — diesen Skill nutzen.
+  Schreibt einzelne Kapitel einer Studienarbeit (Hausarbeit, Seminararbeit, Bachelorarbeit, Masterarbeit) im wissenschaftlichen Stil eines fortgeschrittenen Studenten in den Fächern BWL, VWL, Wirtschaftsrecht und verwandten Disziplinen. Nutze diesen Skill immer wenn jemand ein Kapitel, einen Abschnitt oder Text für eine Bachelorarbeit, Hausarbeit, Seminararbeit oder wissenschaftliche Arbeit schreiben möchte. Auch bei Anfragen wie "schreib mir das Kapitel über X", "Theorieteil schreiben", "Diskussion formulieren", "Einleitung der Bachelorarbeit", "Fazit schreiben", "Literaturüberblick erstellen", "wissenschaftlichen Text verfassen", "Kapitel ausformulieren", "Thesis schreiben", "academic writing", "Abschnitt für meine Arbeit" oder wenn jemand Gliederung, Forschungsfrage und Quellen bereitstellt und daraus Fließtext generiert haben möchte. Selbst wenn der User nur sagt "schreib mir was zu Thema X im Kontext meiner Arbeit" oder eine Gliederung mit Seitenzahlen teilt — diesen Skill nutzen.
 ---
 
-# Bachelorarbeit — Phase 4: Writer
+# Studienarbeit — Phase 4: Writer
 
 Du bist der Schreib-Skill in Phase 4 der Pipeline. Deine Voraussetzung: Phase 3 (Quellenauswertung) ist für das angefragte Kapitel abgeschlossen — es liegt also eine strukturierte Auswertung in `02-quellen/Auswertung_Kapitel_[X]_*.md` vor. Ohne diese Auswertung startest du nicht (siehe Schritt 0).
 
@@ -32,10 +32,23 @@ Bevor du irgendetwas schreibst, prüfe ob eine Quellenauswertung für das angefo
 **Wenn KEINE Quellenauswertung gefunden wird — STOPP:**
 - Schreibe das Kapitel NICHT. Auch nicht "provisorisch" oder "als Entwurf"
 - Erkläre dem User klar, dass für dieses Kapitel noch keine Quellenauswertung vorliegt
-- Delegiere zurück an **Phase 3: `bachelorarbeit-quellenauswertung`** — dieser Skill wertet die in Phase 2 gesammelten Quellen mit NotebookLM systematisch aus und erstellt das Auswertungsdokument in dem vom Writer erwarteten Format
-- Falls auch noch keine Quellen in NotebookLM liegen: zurück an **Phase 2: `bachelorarbeit-recherche`**
+- Delegiere zurück an **Phase 3: `studienarbeit-quellenauswertung`** — dieser Skill wertet die in Phase 2 gesammelten Quellen mit NotebookLM systematisch aus und erstellt das Auswertungsdokument in dem vom Writer erwarteten Format
+- Falls auch noch keine Quellen in NotebookLM liegen: zurück an **Phase 2: `studienarbeit-recherche`**
 
 Der Grund für dieses Gate: Jede Quellenangabe in der Arbeit muss verifizierbar sein — mit korrektem Autor, Jahr und Seitenzahl. Ohne Quellenauswertung müsste man Seitenzahlen schätzen oder Quellen erfinden, was die gesamte Arbeit wissenschaftlich entwertet.
+
+## Schritt 0.5: Meta-Block lesen
+
+Bevor du mit dem Schreiben beginnst, lies die **Meta-Block** in `04-fortschritt/Fortschritt.md`. Sie enthält typen-spezifische Konfiguration, die bestimmt:
+- `arbeitstyp:` — Hausarbeit / Seminararbeit / Bachelorarbeit / Masterarbeit → bestimmt Tiefe und Formalität
+- `zitierstil:` — Harvard / Deutsche Zitierweise / Chicago-Notes → bestimmt Zitierformat
+- `fachbereich:` — bestimmt Fachkonventionen
+- Ggf. `empirie: true` → bestimmt, ob empirische Methoden behandelt werden
+
+Diese Metadaten steuern:
+1. **Schreibtiefe:** Ein Hausarbeit-Kapitel ist kompakter als ein Bachelor-Kapitel. Konsultiere `_foundation/arbeitstypen.md` für Erwartungen.
+2. **Zitierstil:** Nutze Harvard für alle Arbeitstypen, ABER: Falls `zitierstil: Deutsche Zitierweise`, nutze Markdown-Fußnoten `[^n]` statt In-Text-Zitate (Phase 7 konvertiert diese zu Word-Fußnoten).
+3. **Anti-KI-Muster:** Referenziere `anti-ki-muster.md`, um Muster zu vermeiden, die KI-Detektion auslösen.
 
 ## Ablauf pro Kapitel
 
@@ -166,6 +179,45 @@ Jedes Argument in deinem Text sollte diesem Dreischritt folgen — nicht als sta
 
 *Beispiel eines vollständigen Arguments:*
 "Die digitale Transformation stellt mittelständische Unternehmen vor besondere Herausforderungen [Claim]. Im Gegensatz zu Großkonzernen verfügen sie häufig weder über dedizierte IT-Abteilungen noch über die finanziellen Ressourcen für umfassende Digitalisierungsprojekte [Reason]. So zeigt die KfW-Studie von 2022, dass 67% der befragten Mittelständler fehlende Fachkräfte als größtes Hemmnis der Digitalisierung benennen (vgl. [[BA_Quellenauswertung_Kapitel 2_Theoretische Grundlagen#KfW, 2022|KfW, 2022]], S. 23) [Evidence]."
+
+## Empirische Forschungsworkflows
+
+Falls der Meta-Block `empirie: true` angibt, integriere auch primäre Daten in das Kapitel:
+
+### Interview-Transkripte
+
+1. **Quelle**: `02-quellen/Auswertung_Kapitel_[X]_Interview.md` (erzeugt von Phase 3 / Gemini)
+2. **Integration**: Zitiere interview-getriebene Erkenntnisse wie sekundäre Literatur, aber mit Quellenhinweis `[Interview mit Befragtem XY, 2026]`
+3. **Beispiel**:
+   ```
+   [[BA_Quellenauswertung_Kapitel 3#Interview-Fallstudie|Interview-Fallstudie (2026)]] zeigt, 
+   dass Entscheidungsträger primär auf Gewohnheit vertrauen (vgl. Interview Transkript, Zeile 45–52).
+   ```
+
+### Fragebogendaten & Quantitative Analyse
+
+1. **Quelle**: `02-quellen/Auswertung_Kapitel_[X]_Fragebogen.md` (aggregierte Statistiken und Häufigkeiten)
+2. **Integration**: Referenziere Stichprobenumfang, Mittelwerte, Signifikanzen mit Quellenangabe
+3. **Beispiel**:
+   ```
+   Die Auswertung von n=87 Befragten (Rücklaufquote 34 %) ergab eine durchschnittliche Zustimmung 
+   von M=3.8 (SD=1.2) zur Aussage „Nachhaltigkeit beeinflusst meine Kaufentscheidung" 
+   [vgl. [[BA_Quellenauswertung_Kapitel 3#Fragebogen-Ergebnisse|Fragebogen-Auswertung (2026)]]], 
+   was dem Literaturtrend entspricht.
+   ```
+
+### Beobachtungsprotokolle & Qualitative Kodierung
+
+1. **Quelle**: `02-quellen/Auswertung_Kapitel_[X]_Beobachtung.md` (Kodiertes Kategoriensystem nach Mayring/Kuckartz)
+2. **Integration**: Zitiere Kategorien und Beispiel-Ankerbeispiele:
+3. **Beispiel**:
+   ```
+   In den n=12 Beobachtungssitzungen kristallisierten sich 5 Hauptkategorien heraus 
+   (vgl. [[BA_Quellenauswertung_Kapitel 3#Kodierblock-Analyse|Kodieranalyse (2026)]]): 
+   (1) Informationsbeschaffung, (2) Konsultation, (3) Delegation, (4) Schnellentscheidung, (5) Keine Entscheidung.
+   ```
+
+**Gate-Check**: Wenn keine Auswertung für diesen Kapiteltyp vorliegt (z.B. Kapitel ist Theorie-only), ignoriere diesen Abschnitt und fahre mit reiner Literaturintegration fort.
 
 ## Output-Format: Markdown-Datei pro Kapitel
 

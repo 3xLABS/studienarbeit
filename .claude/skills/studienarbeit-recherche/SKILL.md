@@ -1,10 +1,10 @@
 ---
-name: bachelorarbeit-recherche
+name: studienarbeit-recherche
 description: >
-  Phase 2 der Bachelorarbeit-Pipeline: Systematische Quellenrecherche für die Bachelorarbeit. Claude entwickelt die Recherchestrategie, generiert Suchbegriffe und gibt dem User Schritt-für-Schritt-Anleitungen für die Recherche in NotebookLM (im Browser). Der User navigiert selbstständig zu NotebookLM und führt die Suche dort durch. Claude dokumentiert alles im Recherche-Protokoll. Setzt voraus, dass Phase 1 (Planung) abgeschlossen ist — Forschungsfrage und Gliederung müssen vorliegen. Übergibt sauber an Phase 3 (Quellenauswertung). Nutze bei: "Quellen suchen", "Literatur recherchieren", "Papers finden", "Literaturrecherche", "Quellen sammeln", "recherchiere zu [Thema]", "finde Quellen", "Literatursuche", "welche Papers gibt es zu", "Recherche starten", "Deep Research", "Quellensuche", "ich brauche Literatur zu". Nicht für Quellenauswertung — dafür gibt es `bachelorarbeit-quellenauswertung`.
+  Phase 2 der Studienarbeit-Pipeline: Systematische Quellenrecherche für Hausarbeit, Seminararbeit, Bachelorarbeit und Masterarbeit (Literatur-Strang). Claude entwickelt die Recherchestrategie, generiert Suchbegriffe und gibt dem User Schritt-für-Schritt-Anleitungen für die Recherche in NotebookLM (im Browser). Der User navigiert selbstständig zu NotebookLM und führt die Suche dort durch. Claude dokumentiert alles im Recherche-Protokoll. Setzt voraus, dass Phase 1 (Planung) abgeschlossen ist — Forschungsfrage und Gliederung müssen vorliegen. Für Arbeiten mit empirischer Komponente (Interviews, Umfragen, Beobachtungen) steht ein paralleler Empirik-Strang zur Verfügung. Übergibt sauber an Phase 3 (Quellenauswertung). Nutze bei: "Quellen suchen", "Literatur recherchieren", "Papers finden", "Literaturrecherche", "Quellen sammeln", "recherchiere zu [Thema]", "finde Quellen", "Literatursuche", "welche Papers gibt es zu", "Recherche starten", "Deep Research", "Quellensuche", "ich brauche Literatur zu". Nicht für Quellenauswertung — dafür gibt es `studienarbeit-quellenauswertung`.
 ---
 
-# Bachelorarbeit — Phase 2: Recherche
+# Studienarbeit — Phase 2: Recherche
 
 Du unterstützt den User bei der systematischen Literaturrecherche. Der User arbeitet **selbstständig in NotebookLM im Browser** — du lieferst die Strategie, Suchbegriffe, Anleitungen und dokumentierst die Ergebnisse.
 
@@ -21,7 +21,35 @@ Bevor du startest, prüfe:
 2. **Gliederung existiert:** Lies `01-docs/Gliederung.md` oder `01-docs/BA-Gliederung-Muster.md`
 3. **Fortschritt.md existiert:** Lies `04-fortschritt/Fortschritt.md`, um den Überblick zu behalten
 
-Falls eines fehlt, weise auf Phase 1 (`bachelorarbeit-planung`) hin und biete nicht an, die Lücke hier zu schließen — die Phasen sind bewusst getrennt.
+Falls eines fehlt, weise auf Phase 1 (`studienarbeit-planung`) hin und biete nicht an, die Lücke hier zu schließen — die Phasen sind bewusst getrennt.
+
+## Meta-Block lesen (Typ-spezifische Konfiguration)
+
+Bevor du mit der Recherche startest, lies die **Meta-Block**-Sektion aus `04-fortschritt/Fortschritt.md`. Diese enthält die Arbeitskonfiguration:
+
+```yaml
+arbeitstyp: Bachelorarbeit | Hausarbeit | Seminararbeit | Masterarbeit
+seitenzahl_ziel: [Gesamtseitenzahl]
+zitierstil: Harvard | Deutsche Zitierweise | Chicago
+empirie: true | false
+fachbereich: [z.B. BWL, Informatik]
+```
+
+**Wie die Meta-Block-Felder deine Recherche konfigurieren:**
+
+- **arbeitstyp** → Bestimmt Quellenumfang pro Kapitel (vgl. `_foundation/arbeitstypen.md`):
+  - Hausarbeit: 5–8 Quellen pro Kapitel
+  - Seminararbeit: 8–12 Quellen pro Kapitel
+  - Bachelorarbeit: 12–20 Quellen pro Kapitel
+  - Masterarbeit: 20–30+ Quellen pro Kapitel
+
+- **seitenzahl_ziel** → Hilft beim Abwägen: Umfangreichere Arbeiten brauchen tiefere Quellenrecherche
+
+- **zitierstil** → Bestimmt, worauf du in Quellenqualität achtest (siehe `_foundation/zitierstile.md`)
+
+- **empirie: true** → Es gibt einen parallelen Empirik-Strang (Interviews, Umfragen). Diese Phase recherchiert nur den Literatur-Strang.
+
+- **fachbereich** → Berücksichtige fachspezifische Besonderheiten (z.B. in Informatik: mehr grauer Literatur & Standards, in BWL: mehr Grauzonen zwischen Wissenschaft und Praxis)
 
 ## Ablauf
 
@@ -33,8 +61,8 @@ Der User muss ein zentrales Notebook in NotebookLM anlegen. Gib ihm diese Anleit
 >
 > 1. Öffne [notebooklm.google.com](https://notebooklm.google.com) in deinem Browser
 > 2. Klicke auf **"Neues Notebook"** / **"New Notebook"**
-> 3. Benenne es: `BA: [Dein Thema]`
-> 4. Das Notebook ist jetzt bereit — hier sammelst du alle Quellen für die Bachelorarbeit
+> 3. Benenne es: `[Arbeitstyp]: [Dein Thema]` (z.B. `Bachelorarbeit: Risikomanagement in KMUs`)
+> 4. Das Notebook ist jetzt bereit — hier sammelst du alle Quellen für deine Studienarbeit
 >
 > Bestätige mir, wenn das Notebook angelegt ist.
 
@@ -63,7 +91,7 @@ Leite den User durch drei Kanäle:
 
 > **Deep Research starten:**
 >
-> 1. Öffne dein BA-Notebook in NotebookLM
+> 1. Öffne dein Notebook in NotebookLM
 > 2. Nutze die **Research**-Funktion (Symbol oben rechts oder im Chat)
 > 3. Gib den folgenden Suchbegriff ein: `[Suchbegriff]`
 > 4. Wähle **Deep Research** — das dauert 2–5 Minuten und findet 20+ Quellen
@@ -143,7 +171,7 @@ Erstelle auf Basis der User-Rückmeldungen ein Recherche-Protokoll in `02-quelle
 - Themen die noch nicht abgedeckt sind
 
 ## Nächster Schritt
-Phase 3: `bachelorarbeit-quellenauswertung` für dieses Kapitel ausführen.
+Phase 3: `studienarbeit-quellenauswertung` für dieses Kapitel ausführen.
 ```
 
 **Dateiname:** `02-quellen/Recherche_Kapitel_[X]_[Kurztitel].md`
@@ -189,10 +217,10 @@ Wenn die Recherche für ein Kapitel abgeschlossen ist:
 > Phase 2 (Recherche) für Kapitel [X] ist abgeschlossen. Im NotebookLM-Notebook liegen [Anzahl] indexierte Quellen. Das Recherche-Protokoll findest du unter [[Recherche_Kapitel_X_Kurztitel]].
 >
 > **Nächster Schritt — Phase 3: Quellenauswertung.**
-> Starte den `bachelorarbeit-quellenauswertung`-Skill. Er führt dich durch die Auswertung der Quellen mit Gemini und bereitet die Ergebnisse für den Writer-Skill auf.
+> Starte den `studienarbeit-quellenauswertung`-Skill. Er führt dich durch die Auswertung der Quellen mit Gemini und bereitet die Ergebnisse für den Writer-Skill auf.
 
 ## Zusammenspiel mit anderen Skills
 
-- **Vor Phase 2** → `bachelorarbeit-planung` liefert Forschungsfrage und Gliederung
-- **Nach Phase 2** → `bachelorarbeit-quellenauswertung` analysiert die gesammelten Quellen (via Gemini im Browser)
+- **Vor Phase 2** → `studienarbeit-planung` liefert Forschungsfrage und Gliederung
+- **Nach Phase 2** → `studienarbeit-quellenauswertung` analysiert die gesammelten Quellen (via Gemini im Browser)
 - **Quer** → Bei Lücken, die erst beim Review auffallen, kann Phase 2 für einzelne Kapitel erneut gestartet werden (Nachrecherche)

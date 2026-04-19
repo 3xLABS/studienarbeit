@@ -1,18 +1,18 @@
 ---
-name: bachelorarbeit-finalisierung
+name: studienarbeit-finalisierung
 description: >
-  Finalisiert eine Bachelorarbeit: prüft die Gesamtarbeit auf Konsistenz, Vollständigkeit und roten Faden, dann formatiert sie als finale Word-Datei (.docx) nach Formatvorgaben des Nutzers. Nutze bei: "Arbeit finalisieren", "finale Version erstellen", "Word-Datei formatieren", "Abgabeversion", "Formatierung", "alles zusammenführen", "Gesamtcheck", "letzte Prüfung", "Arbeit abgabefertig machen", "docx erstellen", "formatiere meine Arbeit", "finale Datei", "Thesis zusammenbauen", "Kapitel zusammenführen", "Abgabe vorbereiten", "Endversion", "finalize thesis". Auch wenn alle Kapitel vorliegen und der User eine fertige Datei möchte.
+  Finalisiert eine Studienarbeit (Hausarbeit, Seminararbeit, Bachelorarbeit, Masterarbeit): prüft die Gesamtarbeit auf Konsistenz, Vollständigkeit und roten Faden, dann formatiert sie als finale Word-Datei (.docx) nach Formatvorgaben des Nutzers. Nutze bei: "Arbeit finalisieren", "finale Version erstellen", "Word-Datei formatieren", "Abgabeversion", "Formatierung", "alles zusammenführen", "Gesamtcheck", "letzte Prüfung", "Arbeit abgabefertig machen", "docx erstellen", "formatiere meine Arbeit", "finale Datei", "Thesis zusammenbauen", "Kapitel zusammenführen", "Abgabe vorbereiten", "Endversion", "finalize thesis". Auch wenn alle Kapitel vorliegen und der User eine fertige Datei möchte.
 ---
 
-# Bachelorarbeit — Phase 7: Finalisierung
+# Studienarbeit — Phase 7: Finalisierung
 
-Du bist Phase 7 — der letzte Schritt in der Pipeline. Deine Voraussetzung: Alle Kapitel liegen im Status "Reviewed" oder "Überarbeitet" vor, und der User hat die Formatvorgaben seiner Hochschule bereitgestellt.
+Du bist Phase 7 — der letzte Schritt in der Pipeline für eine Studienarbeit (Hausarbeit, Seminararbeit, Bachelorarbeit oder Masterarbeit). Deine Voraussetzung: Alle Kapitel liegen im Status "Reviewed" oder "Überarbeitet" vor, und der User hat die Formatvorgaben seiner Hochschule bereitgestellt.
 
 **Abgrenzung:**
 - Du **schreibst keine Inhalte** — du prüfst die Gesamtarbeit, erstellst das Literaturverzeichnis aus den bereits zitierten Quellen und formatierst als .docx
 - Dein Output ist eine abgabefertige Word-Datei in `06-final/` + ein Prüfbericht
 
-Du bist der letzte Schritt in der Pipeline: Du nimmst alle fertig überarbeiteten Kapitel einer Bachelorarbeit, prüfst die Gesamtarbeit als Einheit und formatierst sie als abgabefertige Word-Datei (.docx). Deine Aufgabe hat zwei Phasen — zuerst Qualitätssicherung, dann Formatierung.
+Du bist der letzte Schritt in der Pipeline: Du nimmst alle fertig überarbeiteten Kapitel einer Studienarbeit (Hausarbeit, Seminararbeit, Bachelorarbeit oder Masterarbeit), prüfst die Gesamtarbeit als Einheit und formatierst sie als abgabefertige Word-Datei (.docx). Deine Aufgabe hat zwei Phasen — zuerst Qualitätssicherung, dann Formatierung.
 
 ## Was du brauchst
 
@@ -33,6 +33,34 @@ Vom User benötigst du:
    - Anhänge
    - Eidesstattliche Erklärung (oder Vorlage der Hochschule)
    - Abbildungsverzeichnis / Tabellenverzeichnis (falls Abbildungen/Tabellen vorhanden)
+
+## Meta-Block lesen (Typ-spezifische Konfiguration)
+
+Lese `04-fortschritt/Fortschritt.md`, Meta-Block-Abschnitt, um die Konfiguration dieser Finalisierung zu bestimmen. Die folgenden Parameter sind relevant:
+
+```yaml
+arbeitstyp: [Hausarbeit|Seminararbeit|Bachelorarbeit|Masterarbeit]
+seitenzahl_ziel: [integer]  # z.B. 15, 20, 40, 60
+zitierstil: [Harvard|Deutsche Zitierweise|Chicago]
+empirie: [true|false]       # true = Interviews, Umfragen, Kodierungen
+fachbereich: [string]       # z.B. "BWL", "Informatik"
+```
+
+### Wie der Meta-Block die Finalisierung steuert:
+
+- **arbeitstyp** → Passt die Erwartung an Seitenumfang, Quellenanzahl und Komplexität an. Ein Hausarbeit-Finalisierung unterscheidet sich von einer Masterarbeit-Finalisierung.
+  
+- **seitenzahl_ziel** → Hilft beim Vollständigkeits-Check. Ist die Arbeit zu kurz (Kandidat für Textkompressionen) oder zu lang (Kandidat für Kürzungen)?
+
+- **zitierstil** → Bestimmt die Harvard-zu-[Deutsche Zitierweise|Chicago]-Konvertierung, falls nötig:
+  - **Harvard** (Standard): Parenthetische Zitate mit Obsidian-Wiki-Links bleiben wie sind. Literaturverzeichnis ohne Fußnoten.
+  - **Deutsche Zitierweise**: Wandle parenthetische Harvard-Zitate in Markdown-Fußnoten [^n] um. Literaturverzeichnis wird am Ende des Dokuments als nummerierte Liste eingefügt.
+  - **Chicago**: Parenthetisch oder Fußnoten je nach User-Vorgabe. Literaturverzeichnis nach Chicago-Standard (unterschiedliche Reihenfolge, "In: Journal" statt nur Seitenzahlen).
+
+- **empirie** → Wenn true, prüfe zusätzlich auf Interviews, Umfragedaten, Transkripte und Kodierungsprotokolle in den Anhängen. Stelle sicher, dass diese dokumentiert sind (z.B. "Transkript Interview 1" im Anhang, mit Referenzen im Text).
+
+- **fachbereich** → Optional für fachspezifische Formatvorgaben (z.B. können naturwissenschaftliche Arbeiten andere Anforderungen haben als BWL-Arbeiten). Nutze dies zur Kontextualisierung deiner Prüfung.
+
 
 ## Phase 1: Gesamtprüfung
 
@@ -249,7 +277,7 @@ const doc = new Document({
 });
 
 Packer.toBuffer(doc).then(buffer => {
-  fs.writeFileSync("bachelorarbeit_final.docx", buffer);
+  fs.writeFileSync("studienarbeit_final.docx", buffer);
 });
 ```
 
@@ -368,7 +396,7 @@ Nach der Finalisierung, aktualisiere `04-fortschritt/Fortschritt.md`:
 
 ## Output
 
-Die finale Datei wird gespeichert in `06-final/bachelorarbeit_final.docx` (oder ein vom User gewünschter Dateiname). Zusätzlich lieferst du:
+Die finale Datei wird gespeichert in `06-final/studienarbeit_final.docx` (oder ein vom User gewünschter Dateiname) (oder ein vom User gewünschter Dateiname). Zusätzlich lieferst du:
 
 1. **Die Word-Datei** — abgabebereit formatiert
 2. **Den Prüfbericht** — als Zusammenfassung der Phase-1-Ergebnisse
