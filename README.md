@@ -65,25 +65,43 @@ Phase 7: FINALISIERUNG → Gesamtcheck → Literaturverzeichnis → Word-Datei
 
 ## Installation
 
-### Schritt 1: Repository klonen
+Es gibt drei Wege — sortiert von einfach nach maximaler Kontrolle.
+
+### Variante A: Cowork-Plugin (ein Klick, empfohlen)
+
+Lade [`dist/studienarbeit-pipeline.plugin`](dist/studienarbeit-pipeline.plugin) herunter und ziehe die Datei in den Cowork-Chat. Cowork zeigt einen Plugin-Preview — auf **„Save plugin"** klicken, fertig. Du hast jetzt zehn Skills (`studienarbeit-pipeline`, `studienarbeit-onboarding`, `-planung`, `-recherche`, `-quellenauswertung`, `-writer`, `-reviewer`, `-ueberarbeitung`, `-finalisierung`, `humanizer`), die geteilte `_foundation/`-Wissensbasis und einen `/start`-Befehl.
+
+Danach in einer neuen Cowork-Session einfach sagen:
+> „Ich will eine Hausarbeit / Bachelorarbeit / Masterarbeit über [Thema] schreiben."
+
+oder:
+> `/start`
+
+### Variante B: Einzelner Skill (`.skill`)
+
+Wenn du keinen Plugin-Wust willst, sondern nur einen einzelnen Skill: Lade [`dist/studienarbeit.skill`](dist/studienarbeit.skill) herunter und ziehe die Datei in Cowork → **„Save skill"**. Genau dieselbe Pipeline, aber als ein einziger Skill `studienarbeit`, der intern zwischen den Phasen routet. Die Foundation-Dateien (Arbeitstypen, Zitierstile, Stil, Argumentation, empirische Methoden, Anti-KI-Muster, Validierung) sind als `references/foundation-*.md` enthalten.
+
+### Variante C: Repo klonen (Claude Code oder Cowork mit Vault-Ordner)
+
+Wenn du den Vault-Ordner sowieso lokal brauchst (Obsidian, Git-Versionierung, eigene Anpassungen):
 
 ```bash
 git clone https://github.com/3xLABS/studienarbeit.git
 ```
 
-### Schritt 2: In Claude laden
+Dann:
 
 1. Öffne **Claude Desktop** (Cowork-Mode) oder **Claude Code**
 2. Wähle den `studienarbeit/`-Ordner als Arbeitsverzeichnis
 3. Fertig — Claude erkennt `.claude/CLAUDE.md` und alle Skills automatisch
 
-Alle Skills liegen in `.claude/skills/` und werden von Claude beim Ordner-Öffnen sofort geladen. Kein manuelles Kopieren nötig.
+Alle Skills liegen in `.claude/skills/`, geteiltes Foundation-Wissen in `.claude/skills/_foundation/`. Variante C ist identisch zu Variante A in Sachen Funktionalität, gibt dir aber zusätzlich die Vault-Struktur als Git-Repo.
 
-### Schritt 3: In Obsidian öffnen (optional)
+### In Obsidian öffnen (optional, für jede Variante)
 
-Öffne den `studienarbeit/`-Ordner als Obsidian-Vault: Obsidian → Vault öffnen → Ordner auswählen.
+Öffne den Vault-Ordner als Obsidian-Vault: Obsidian → Vault öffnen → Ordner auswählen.
 
-### Schritt 4: Loslegen
+### Loslegen
 
 Sage Claude einfach:
 > „Ich will eine Bachelorarbeit / Hausarbeit / Masterarbeit schreiben."
@@ -97,6 +115,11 @@ Claude startet automatisch den Planungs-Skill.
 
 ```
 studienarbeit/                   ← Obsidian Vault Root + Git-Repo
+├── dist/                        ← Vorgebackene Cowork-Pakete
+│   ├── studienarbeit-pipeline.plugin   ← Plugin-Variante (alle Skills + /start + Foundation)
+│   ├── studienarbeit.skill             ← Einzel-Skill-Variante
+│   ├── cowork-plugin/                  ← Plugin-Quellordner
+│   └── master-skill/                   ← Master-Skill-Quellordner
 ├── .claude/
 │   ├── CLAUDE.md                ← Pipeline-Orchestrierung (liest Claude automatisch)
 │   └── skills/                  ← Alle 8 Skills (werden automatisch erkannt)

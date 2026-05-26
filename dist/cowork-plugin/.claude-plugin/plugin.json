@@ -1,0 +1,24 @@
+{
+  "name": "studienarbeit-pipeline",
+  "version": "1.0.0",
+  "description": "Acht spezialisierte Skills für wissenschaftliche Arbeiten — Hausarbeit, Seminararbeit, Studienarbeit, Bachelorarbeit oder Masterarbeit. Onboarding, Planung, Recherche, Quellenauswertung (Literatur + Empirik), Schreiben, Review, Überarbeitung und Finalisierung. Liefert am Ende eine abgabefertige Word-Datei.",
+  "author": {
+    "name": "3xLABS",
+    "url": "https://3xlabs.xyz"
+  },
+  "homepage": "https://github.com/3xLABS/studienarbeit",
+  "repository": "https://github.com/3xLABS/studienarbeit",
+  "license": "MIT",
+  "keywords": [
+    "studienarbeit",
+    "hausarbeit",
+    "seminararbeit",
+    "bachelorarbeit",
+    "masterarbeit",
+    "wissenschaftliches-schreiben",
+    "harvard-apa",
+    "notebooklm",
+    "gemini",
+    "obsidian"
+  ]
+}
