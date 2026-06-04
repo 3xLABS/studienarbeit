@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Studienarbeiten-Pipeline von 3xLABS — acht spezialisierte Skills für wissenschaftliche Arbeiten (Hausarbeit bis Masterarbeit).",
-    "version": "1.1.0"
+    "version": "1.1.1"
   },
   "plugins": [
     {

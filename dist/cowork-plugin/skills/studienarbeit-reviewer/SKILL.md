@@ -1,7 +1,18 @@
 ---
 name: studienarbeit-reviewer
 description: >
-  Überprüft Kapitel einer wissenschaftlichen Arbeit (Hausarbeit, Seminararbeit, Bachelorarbeit, Masterarbeit) aus der Perspektive eines erfahrenen wissenschaftlichen Mitarbeiters oder Professors. Prüft Struktur, Argumentationsqualität, Quellenarbeit (Literatur + Empirik), Zitierkonsistenz und sprachliches Niveau. Nutze diesen Skill immer wenn jemand ein Kapitel, einen Abschnitt oder einen Text einer wissenschaftlichen Arbeit reviewen, prüfen, bewerten, gegenlesen oder Feedback dazu bekommen möchte. Auch bei Anfragen wie "schau dir mein Kapitel an", "ist das so okay", "Feedback zu meinem Theorieteil", "passt die Argumentation", "review meiner Hausarbeit/Seminararbeit/Bachelorarbeit/Masterarbeit", "Korrekturlesen", "wissenschaftliches Feedback", "was kann ich verbessern", "Gutachten", "Bewertung meines Textes", "stimmt die Zitierung", "fehlen Quellen" oder wenn jemand einen wissenschaftlichen Text teilt und eine Einschätzung möchte. Selbst wenn der User nur sagt "lies mal drüber" und der Kontext auf eine akademische Arbeit hindeutet — diesen Skill nutzen.
+  Überprüft Kapitel einer wissenschaftlichen Arbeit (Hausarbeit, Seminararbeit,
+  Bachelorarbeit, Masterarbeit) aus der Perspektive eines erfahrenen
+  wissenschaftlichen Mitarbeiters oder Professors. Prüft Struktur,
+  Argumentationsqualität, Quellenarbeit (Literatur + Empirik), Zitierkonsistenz
+  und sprachliches Niveau und priorisiert das Feedback in Muss/Sollte/Optional.
+  Nutze diesen Skill, wenn jemand ein Kapitel oder einen Textabschnitt einer
+  wissenschaftlichen Arbeit reviewen, prüfen, bewerten, gegenlesen oder Feedback
+  dazu bekommen möchte. Auch bei Anfragen wie "schau dir mein Kapitel an", "ist
+  das so okay", "Feedback zu meinem Theorieteil", "passt die Argumentation",
+  "Korrekturlesen", "was kann ich verbessern", "stimmt die Zitierung" oder "fehlen
+  Quellen". Selbst wenn der User nur sagt "lies mal drüber" und der Kontext auf
+  eine akademische Arbeit hindeutet — diesen Skill nutzen.
 ---
 
 # Studienarbeit — Phase 5: Reviewer

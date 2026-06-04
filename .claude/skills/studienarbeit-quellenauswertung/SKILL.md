@@ -1,7 +1,18 @@
 ---
 name: studienarbeit-quellenauswertung
 description: >
-  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): Leitet den User durch die Quellenauswertung mit Gemini und NotebookLM. Der User hat seine Quellen bereits in einem NotebookLM-Notebook gesammelt (Phase 2). Jetzt öffnet er Gemini im Browser, verknüpft das Notebook, und wertet die Quellen dort mit vorbereiteten Prompts von Claude aus. Claude liefert die Prompts und den Gem-Systemprompt, der User führt alles im Browser durch, und Claude übernimmt die Nachbearbeitung des Gemini-Outputs ins Writer-Format. Falls `empirie: true` in Fortschritt.md: Paralleler Empirik-Strang für Analyse von Interviews, Fragebögen, Beobachtungen. Spart Token, weil die eigentliche Analyse bei Gemini läuft. Nutze bei: "Quellen auswerten", "Literatur analysieren", "was sagen die Quellen zu", "Quellenauswertung", "Literaturanalyse", "Quellen zusammenfassen", "Quellen vergleichen", "was steht in den Papers", "extrahiere die Kernaussagen", "Interviews auswerten", "Fragebogen analysieren", "Empirik auswerten", "erstelle eine Quellenübersicht", "werte die Quellen aus", "Gem erstellen", "Gemini Auswertung". Nicht für Quellensuche — dafür gibt es `studienarbeit-recherche`.
+  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): leitet den
+  User durch die Quellenauswertung mit Gemini und NotebookLM. Die in Phase 2
+  gesammelten Quellen liegen bereits in einem NotebookLM-Notebook; der User öffnet
+  Gemini im Browser, verknüpft das Notebook und wertet die Quellen mit
+  vorbereiteten Prompts aus. Claude liefert Gem-Systemprompt und
+  kapitelspezifische Prompts und bringt den Gemini-Output ins Writer-Format. Bei
+  empirischer Komponente zusätzlich ein Empirik-Strang für Interviews, Fragebögen
+  und Beobachtungen. Spart Token, weil die Analyse bei Gemini läuft. Nutze bei:
+  "Quellen auswerten", "Literatur analysieren", "Quellenauswertung", "Quellen
+  zusammenfassen", "Kernaussagen extrahieren", "Interviews auswerten", "Fragebogen
+  analysieren", "Gem erstellen", "Gemini Auswertung". Nicht für die Quellensuche —
+  dafuer gibt es studienarbeit-recherche.
 ---
 
 # Studienarbeit — Phase 3: Quellenauswertung (via Gemini)

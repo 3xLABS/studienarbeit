@@ -2,23 +2,18 @@
 name: studienarbeit
 description: >
   Komplette Pipeline für eine wissenschaftliche Arbeit — Hausarbeit,
-  Seminararbeit, Studienarbeit, Bachelorarbeit oder Masterarbeit. Passt sich
-  an den Arbeitstyp an (10 bis 100 Seiten, mit oder ohne Empirie). Acht klar
-  getrennte Phasen, Multi-Tool-Workflow mit NotebookLM, Gemini und Perplexity,
-  durchgängiger wissenschaftlicher Stil mit aktivem Anti-KI-Muster-Check.
-  Nutze diesen Skill bei JEDER Anfrage, die mit einer wissenschaftlichen
-  Studien-/Abschlussarbeit zu tun hat: "ich will eine Hausarbeit schreiben",
-  "Bachelorarbeit planen", "Masterarbeit starten", "Seminararbeit",
-  "Forschungsfrage entwickeln", "Gliederung erstellen", "Zeitplan",
-  "Quellen suchen", "Literaturrecherche", "Deep Research", "Quellen
-  auswerten", "Interviews codieren", "Fragebogen analysieren", "Kapitel
-  schreiben", "Theorieteil", "Methodik formulieren", "Fazit schreiben",
-  "Einleitung", "Diskussion", "Kapitel reviewen", "Feedback zu meinem Text",
-  "Betreuer-Feedback einarbeiten", "Überarbeitung", "Revision", "Arbeit
-  finalisieren", "Word-Datei erstellen", "Abgabeversion", "Literatur-
-  verzeichnis", "wie ist der Stand", "wo bin ich gerade". Auch wenn der User
-  nur ein Kapitel teilt und fragt "schau mal drüber" oder eine Gliederung
-  pastet — diesen Skill nutzen.
+  Seminararbeit, Studienarbeit, Bachelorarbeit oder Masterarbeit. Passt sich an
+  den Arbeitstyp an (10 bis 100 Seiten, mit oder ohne Empirie). Acht klar
+  getrennte Phasen, Multi-Tool-Workflow mit NotebookLM und Gemini, durchgängiger
+  wissenschaftlicher Stil mit aktivem Anti-KI-Muster-Check. Nutze diesen Skill bei
+  jeder Anfrage rund um eine wissenschaftliche Studien- oder Abschlussarbeit:
+  "Hausarbeit schreiben", "Bachelorarbeit planen", "Masterarbeit starten",
+  "Forschungsfrage entwickeln", "Gliederung erstellen", "Quellen suchen", "Quellen
+  auswerten", "Interviews codieren", "Kapitel schreiben", "Theorieteil",
+  "Methodik", "Fazit", "Diskussion", "Kapitel reviewen", "Betreuer-Feedback
+  einarbeiten", "Überarbeitung", "Arbeit finalisieren", "Word-Datei erstellen".
+  Auch wenn der User nur ein Kapitel teilt und "schau mal drüber" fragt — diesen
+  Skill nutzen.
 ---
 
 # Studienarbeiten-Pipeline (Master-Skill)

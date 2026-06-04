@@ -1,7 +1,18 @@
 ---
 name: studienarbeit-writer
 description: >
-  Schreibt einzelne Kapitel einer Studienarbeit (Hausarbeit, Seminararbeit, Bachelorarbeit, Masterarbeit) im wissenschaftlichen Stil eines fortgeschrittenen Studenten in den Fächern BWL, VWL, Wirtschaftsrecht und verwandten Disziplinen. Nutze diesen Skill immer wenn jemand ein Kapitel, einen Abschnitt oder Text für eine Bachelorarbeit, Hausarbeit, Seminararbeit oder wissenschaftliche Arbeit schreiben möchte. Auch bei Anfragen wie "schreib mir das Kapitel über X", "Theorieteil schreiben", "Diskussion formulieren", "Einleitung der Bachelorarbeit", "Fazit schreiben", "Literaturüberblick erstellen", "wissenschaftlichen Text verfassen", "Kapitel ausformulieren", "Thesis schreiben", "academic writing", "Abschnitt für meine Arbeit" oder wenn jemand Gliederung, Forschungsfrage und Quellen bereitstellt und daraus Fließtext generiert haben möchte. Selbst wenn der User nur sagt "schreib mir was zu Thema X im Kontext meiner Arbeit" oder eine Gliederung mit Seitenzahlen teilt — diesen Skill nutzen.
+  Schreibt einzelne Kapitel einer Studienarbeit (Hausarbeit, Seminararbeit,
+  Bachelorarbeit, Masterarbeit) im wissenschaftlichen Stil eines fortgeschrittenen
+  Studenten, v.a. in BWL, VWL, Wirtschaftsrecht und verwandten Fächern. Nutze
+  diesen Skill, wenn jemand ein Kapitel, einen Abschnitt oder Text für eine
+  wissenschaftliche Arbeit schreiben möchte. Auch bei Anfragen wie "schreib mir
+  das Kapitel über X", "Theorieteil schreiben", "Diskussion formulieren",
+  "Einleitung schreiben", "Fazit schreiben", "Literaturüberblick erstellen",
+  "wissenschaftlichen Text verfassen", "Kapitel ausformulieren", "academic
+  writing" oder wenn jemand Gliederung, Forschungsfrage und Quellen bereitstellt
+  und daraus Fließtext generiert haben möchte. Selbst wenn der User nur sagt
+  "schreib mir was zu Thema X" oder eine Gliederung mit Seitenzahlen teilt —
+  diesen Skill nutzen.
 ---
 
 # Studienarbeit — Phase 4: Writer

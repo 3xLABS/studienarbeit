@@ -1,7 +1,17 @@
 ---
 name: studienarbeit-recherche
 description: >
-  Phase 2 der Studienarbeit-Pipeline: Systematische Quellenrecherche für Hausarbeit, Seminararbeit, Bachelorarbeit und Masterarbeit (Literatur-Strang). Claude entwickelt die Recherchestrategie, generiert Suchbegriffe und gibt dem User Schritt-für-Schritt-Anleitungen für die Recherche in NotebookLM (im Browser). Der User navigiert selbstständig zu NotebookLM und führt die Suche dort durch. Claude dokumentiert alles im Recherche-Protokoll. Setzt voraus, dass Phase 1 (Planung) abgeschlossen ist — Forschungsfrage und Gliederung müssen vorliegen. Für Arbeiten mit empirischer Komponente (Interviews, Umfragen, Beobachtungen) steht ein paralleler Empirik-Strang zur Verfügung. Übergibt sauber an Phase 3 (Quellenauswertung). Nutze bei: "Quellen suchen", "Literatur recherchieren", "Papers finden", "Literaturrecherche", "Quellen sammeln", "recherchiere zu [Thema]", "finde Quellen", "Literatursuche", "welche Papers gibt es zu", "Recherche starten", "Deep Research", "Quellensuche", "ich brauche Literatur zu". Nicht für Quellenauswertung — dafür gibt es `studienarbeit-quellenauswertung`.
+  Phase 2 der Studienarbeit-Pipeline: systematische Quellenrecherche für
+  Hausarbeit, Seminararbeit, Bachelorarbeit und Masterarbeit (Literatur-Strang).
+  Claude entwickelt die Recherchestrategie, generiert Suchbegriffe und gibt
+  Schritt-für-Schritt-Anleitungen für die Recherche in NotebookLM (im Browser);
+  der User führt die Suche selbst durch, Claude dokumentiert sie im Recherche-
+  Protokoll. Setzt Phase 1 (Planung) voraus — Forschungsfrage und Gliederung
+  müssen vorliegen. Für empirische Arbeiten steht ein paralleler Empirik-Strang
+  bereit. Übergibt an Phase 3 (Quellenauswertung). Nutze bei: "Quellen suchen",
+  "Literatur recherchieren", "Papers finden", "Literaturrecherche", "Quellen
+  sammeln", "finde Quellen", "Deep Research", "ich brauche Literatur zu". Nicht
+  für die Quellenauswertung — dafuer gibt es studienarbeit-quellenauswertung.
 ---
 
 # Studienarbeit — Phase 2: Recherche
