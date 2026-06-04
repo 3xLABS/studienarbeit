@@ -65,23 +65,40 @@ Phase 7: FINALISIERUNG → Gesamtcheck → Literaturverzeichnis → Word-Datei
 
 ## Installation
 
-Es gibt drei Wege — sortiert von einfach nach maximaler Kontrolle.
+Es gibt mehrere Wege — sortiert von einfach nach maximaler Kontrolle. **Variante A (Marketplace) ist die zuverlässigste und braucht keinen Datei-Download.**
 
-### Variante A: Cowork-Plugin (ein Klick, empfohlen)
+### Variante A: Marketplace (ein Befehl, empfohlen)
 
-Lade [`dist/studienarbeit-pipeline.plugin`](dist/studienarbeit-pipeline.plugin) herunter und ziehe die Datei in den Cowork-Chat. Cowork zeigt einen Plugin-Preview — auf **„Save plugin"** klicken, fertig. Du hast jetzt zehn Skills (`studienarbeit-pipeline`, `studienarbeit-onboarding`, `-planung`, `-recherche`, `-quellenauswertung`, `-writer`, `-reviewer`, `-ueberarbeitung`, `-finalisierung`, `humanizer`), die geteilte `_foundation/`-Wissensbasis und einen `/start`-Befehl.
+Dieses Repo ist ein Claude-Plugin-Marketplace. Du musst keine `.plugin`-Datei herunterladen, suchen oder hineinziehen — zwei Befehle genügen. In **Claude Code** oder im **Cowork-Chat** eingeben:
 
-Danach in einer neuen Cowork-Session einfach sagen:
+```
+/plugin marketplace add 3xLABS/studienarbeit
+/plugin install studienarbeit-pipeline@studienarbeit
+```
+
+Fertig. Du hast jetzt zehn Skills (`studienarbeit-pipeline`, `studienarbeit-onboarding`, `-planung`, `-recherche`, `-quellenauswertung`, `-writer`, `-reviewer`, `-ueberarbeitung`, `-finalisierung`, `humanizer`), die geteilte `_foundation/`-Wissensbasis und einen `/start`-Befehl.
+
+Updates später holst du dir mit:
+
+```
+/plugin marketplace update studienarbeit
+```
+
+Danach in einer neuen Session einfach sagen:
 > „Ich will eine Hausarbeit / Bachelorarbeit / Masterarbeit über [Thema] schreiben."
 
 oder:
 > `/start`
 
-### Variante B: Einzelner Skill (`.skill`)
+### Variante B: Plugin-Datei per Drag-&-Drop (Fallback ohne Marketplace)
+
+Falls du den Marketplace nicht nutzen willst: Lade [`dist/studienarbeit-pipeline.plugin`](dist/studienarbeit-pipeline.plugin) herunter (Rechtsklick → „Datei speichern unter" bzw. auf GitHub „Download raw file"), ziehe sie in den Cowork-Chat und klicke im Preview auf **„Save plugin"**. Wichtig: Die Datei muss die Endung `.plugin` behalten und darf vom Browser nicht entpackt werden — falls dein Browser ein `.zip` daraus macht, einfach wieder in `.plugin` umbenennen.
+
+### Variante C: Einzelner Skill (`.skill`)
 
 Wenn du keinen Plugin-Wust willst, sondern nur einen einzelnen Skill: Lade [`dist/studienarbeit.skill`](dist/studienarbeit.skill) herunter und ziehe die Datei in Cowork → **„Save skill"**. Genau dieselbe Pipeline, aber als ein einziger Skill `studienarbeit`, der intern zwischen den Phasen routet. Die Foundation-Dateien (Arbeitstypen, Zitierstile, Stil, Argumentation, empirische Methoden, Anti-KI-Muster, Validierung) sind als `references/foundation-*.md` enthalten.
 
-### Variante C: Repo klonen (Claude Code oder Cowork mit Vault-Ordner)
+### Variante D: Repo klonen (Claude Code oder Cowork mit Vault-Ordner)
 
 Wenn du den Vault-Ordner sowieso lokal brauchst (Obsidian, Git-Versionierung, eigene Anpassungen):
 

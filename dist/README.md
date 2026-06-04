@@ -13,15 +13,26 @@ Vorgefertigte Cowork-Pakete für die Studienarbeiten-Pipeline. Beide Varianten b
 
 ## Installation
 
-### Variante A: Plugin (empfohlen)
+### Variante A: Marketplace (empfohlen, ein Befehl)
 
-1. `studienarbeit-pipeline.plugin` herunterladen
+Das Repo ist ein Claude-Plugin-Marketplace — kein Datei-Download nötig, nichts kann beim Download kaputtgehen. In Claude Code oder im Cowork-Chat:
+
+```
+/plugin marketplace add 3xLABS/studienarbeit
+/plugin install studienarbeit-pipeline@studienarbeit
+```
+
+Updates später: `/plugin marketplace update studienarbeit`.
+
+### Variante B: Plugin-Datei (Drag-&-Drop-Fallback)
+
+1. `studienarbeit-pipeline.plugin` herunterladen (Endung muss `.plugin` bleiben — nicht entpacken lassen; ggf. zurück in `.plugin` umbenennen)
 2. In den Cowork-Chat ziehen oder doppelklicken
 3. "Save plugin" klicken
 
 Cowork lädt alle Skills (`studienarbeit-pipeline`, `studienarbeit-onboarding`, `-planung`, `-recherche`, `-quellenauswertung`, `-writer`, `-reviewer`, `-ueberarbeitung`, `-finalisierung`, `humanizer`), den `/start`-Command und die geteilte Wissensbasis (`_foundation/`).
 
-### Variante B: Einzelner Skill
+### Variante C: Einzelner Skill
 
 1. `studienarbeit.skill` herunterladen
 2. In Cowork ziehen → "Save skill"
