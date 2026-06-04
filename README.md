@@ -72,7 +72,7 @@ Es gibt mehrere Wege — sortiert von einfach nach maximaler Kontrolle. **Varian
 Dieses Repo ist ein Claude-Plugin-Marketplace. Du musst keine `.plugin`-Datei herunterladen, suchen oder hineinziehen — zwei Befehle genügen. In **Claude Code** oder im **Cowork-Chat** eingeben:
 
 ```
-/plugin marketplace add 3xLABS/studienarbeit
+/plugin marketplace add e3xler/studienarbeit
 /plugin install studienarbeit-pipeline@studienarbeit
 ```
 
@@ -103,7 +103,7 @@ Wenn du keinen Plugin-Wust willst, sondern nur einen einzelnen Skill: Lade [`dis
 Wenn du den Vault-Ordner sowieso lokal brauchst (Obsidian, Git-Versionierung, eigene Anpassungen):
 
 ```bash
-git clone https://github.com/3xLABS/studienarbeit.git
+git clone https://github.com/e3xler/studienarbeit.git
 ```
 
 Dann:
@@ -268,4 +268,4 @@ Frei nutzbar für persönliche und akademische Zwecke.
 
 ---
 
-Erstellt mit der [Studienarbeiten-Pipeline](https://github.com/3xLABS/studienarbeit) von [3xLABS](https://3xlabs.xyz).
+Erstellt mit der [Studienarbeiten-Pipeline](https://github.com/e3xler/studienarbeit) von [Chris Eichler (@e3xler)](https://e3xler.com).

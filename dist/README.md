@@ -18,7 +18,7 @@ Vorgefertigte Cowork-Pakete für die Studienarbeiten-Pipeline. Beide Varianten b
 Das Repo ist ein Claude-Plugin-Marketplace — kein Datei-Download nötig, nichts kann beim Download kaputtgehen. In Claude Code oder im Cowork-Chat:
 
 ```
-/plugin marketplace add 3xLABS/studienarbeit
+/plugin marketplace add e3xler/studienarbeit
 /plugin install studienarbeit-pipeline@studienarbeit
 ```
 

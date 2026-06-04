@@ -54,4 +54,4 @@ oder
 
 ## Quelle & Lizenz
 
-[github.com/3xLABS/studienarbeit](https://github.com/3xLABS/studienarbeit) — MIT.
+[github.com/e3xler/studienarbeit](https://github.com/e3xler/studienarbeit) — MIT.
