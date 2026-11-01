@@ -20,3 +20,21 @@ Icon?
 *.zip
 # Doku-Seiten fuer e3xler.com — leben im Website-Repo
 study-texter.*.mdx
+
+# --- 3xLABS Standard (Phase 4, 2026-11-01): Medien, Secrets und Build-Artefakte nicht in Git ---
+node_modules/
+.next/
+.venv/
+.env
+.env.*
+!.env.example
+*.mp4
+*.mov
+*.m4a
+*.wav
+*.psd
+*.sketch
+*.blend
+*.fbx
+*.safetensors
+.mcp.json
