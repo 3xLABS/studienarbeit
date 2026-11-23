@@ -272,6 +272,8 @@ Drei Mechaniken stammen aus [PaperOrchestra](https://github.com/google-research/
 
 **v1.2.1 (nach Testlauf):** Untertitel-Vergleich, Erstautor-Pflicht und AIS-Konferenzbände im Quellen-Check, Status `abweichend` für falsch zugeordnete Quellen, Rausch-Schwelle von 0,5 Punkten im Score-Gate (zwei Reviews desselben Texts lagen 0,4 Punkte auseinander).
 
+**v1.3.0 (Seitenzahlen, nach Nutzer-Feedback):** Der Gem nennt jetzt gedruckte Seite, PDF-Seite und einen wörtlichen Anker. Die Recherche speichert den Seitenbereich aus Crossref. Quellenauswertung und Finalisierung prüfen jede Seitenangabe gegen diesen Bereich und erkennen den typischen PDF-Versatz (PDF-Seite 2 statt gedruckter S. 320). Unsichere Seiten bleiben als `[SEITE PRÜFEN]` markiert, mit fertigem Nachfrage-Prompt für NotebookLM.
+
 ## Lizenz
 
 Frei nutzbar für persönliche und akademische Zwecke.

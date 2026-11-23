@@ -92,6 +92,7 @@ Bevor du auch nur eine Zeile formatierst, lies alle Kapitel in der Reihenfolge d
 - Sind "vgl." bei indirekten Zitaten, Seitenangaben und Autorenformate konsistent?
 - Werden dieselben Quellen in verschiedenen Kapiteln gleich zitiert? (z.B. nicht einmal "Müller & Schmidt, 2021" und anderswo "Müller und Schmidt, 2021")
 - Gibt es noch offene [QUELLE ERGÄNZEN]-Stellen? Falls ja, weise den User explizit darauf hin — diese müssen vor Abgabe geschlossen werden.
+- **Seiten-Check über die ganze Arbeit:** Liste jede Zitation mit Seitenangabe auf und vergleiche sie mit dem Seitenbereich der Quelle im Recherche-Protokoll (Regeln wie in `studienarbeit-quellenauswertung`, Abschnitt Seiten-Check). Seiten außerhalb des Bereichs und alle offenen `[SEITE PRÜFEN]`-Stellen kommen in den Prüfbericht unter „Kritische Punkte", jeweils mit dem Nachfrage-Prompt für NotebookLM.
 
 ### 1.5 Sprachliche Konsistenz
 

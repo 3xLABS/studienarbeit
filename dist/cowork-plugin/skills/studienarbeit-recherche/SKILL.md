@@ -150,7 +150,7 @@ Bevor eine Quelle ins Protokoll kommt, prüfst **du** (Claude), ob sie wirklich 
    - Crossref (Hauptweg, ohne Key): `https://api.crossref.org/works?query.bibliographic=<Titel Autor Jahr>&rows=3`
    - Semantic Scholar (Fallback, ohne API-Key oft gedrosselt mit Fehler 429): `https://api.semanticscholar.org/graph/v1/paper/search?query=<Titel>&fields=title,year,authors,externalIds&limit=3`
    - Bei Büchern und Reports: Verlagsseite, DNB-Katalog oder Website der Institution
-   Treffer gilt nur, wenn Titel, Erstautor und Jahr übereinstimmen. Der erste Datenbank-Treffer ist nicht automatisch der richtige: Crossref liefert bei bekannten Titeln auch Nachdrucke oder fremde DOIs. Notiere die DOI, falls vorhanden.
+   Treffer gilt nur, wenn Titel, Erstautor und Jahr übereinstimmen. Übernimm aus dem Treffer auch den **Seitenbereich** (Crossref-Feld `page`, z. B. `319-340`). Er ist später der Maßstab für den Seiten-Check. Der erste Datenbank-Treffer ist nicht automatisch der richtige: Crossref liefert bei bekannten Titeln auch Nachdrucke oder fremde DOIs. Notiere die DOI, falls vorhanden.
    - **Erstautor heißt Erstautor:** Steht der Name nur als Mitautor im Treffer, ist die Quelle falsch zugeordnet (Status `abweichend`, siehe unten).
    - **Untertitel:** Crossref speichert Untertitel in einem eigenen Feld (`subtitle`). Vergleiche deshalb auch Haupttitel plus Untertitel. Ist der Crossref-Haupttitel der Anfang des Quellentitels, zählt der Titel als gleich.
    - **Konferenzbände ohne DOI:** AIS-Konferenzen (PACIS, ECIS, ICIS, AMCIS) und viele deutsche Tagungsbände stehen nicht in Crossref. Prüfe sie in der AIS eLibrary (aisel.aisnet.org) oder auf der Tagungsseite und setze bei Treffer `⚠️ manuell`, nicht `❌`.
@@ -192,10 +192,10 @@ Erstelle auf Basis der User-Rückmeldungen ein Recherche-Protokoll in `02-quelle
 
 ## Gesammelte Quellen
 
-| # | Titel | Autor | Jahr | Typ | Relevanz | Check | DOI |
-|---|---|---|---|---|---|---|---|
-| 1 | [Titel] | [Autor] | 2023 | Paper/Buch/Web | ★★★★☆ | ✅ verifiziert | 10.xxxx/... |
-| 2 | ... | ... | ... | ... | ... | ⚠️ manuell | – |
+| # | Titel | Autor | Jahr | Typ | Relevanz | Check | DOI | Seiten |
+|---|---|---|---|---|---|---|---|---|
+| 1 | [Titel] | [Autor] | 2023 | Paper/Buch/Web | ★★★★☆ | ✅ verifiziert | 10.xxxx/... | 319-340 |
+| 2 | ... | ... | ... | ... | ... | ⚠️ manuell | – | – |
 
 ## Fehlgeschlagene Uploads
 - [URL] — Grund: [Paywall / Login / Captcha / ...]

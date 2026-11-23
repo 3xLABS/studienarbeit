@@ -1,7 +1,18 @@
 ---
 name: studienarbeit-quellenauswertung
 description: >
-  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): Leitet den User durch die Quellenauswertung mit Gemini und NotebookLM. Der User hat seine Quellen bereits in einem NotebookLM-Notebook gesammelt (Phase 2). Jetzt öffnet er Gemini im Browser, verknüpft das Notebook, und wertet die Quellen dort mit vorbereiteten Prompts von Claude aus. Claude liefert die Prompts und den Gem-Systemprompt, der User führt alles im Browser durch, und Claude übernimmt die Nachbearbeitung des Gemini-Outputs ins Writer-Format. Falls `empirie: true` in Fortschritt.md: Paralleler Empirik-Strang für Analyse von Interviews, Fragebögen, Beobachtungen. Spart Token, weil die eigentliche Analyse bei Gemini läuft. Nutze bei: "Quellen auswerten", "Literatur analysieren", "was sagen die Quellen zu", "Quellenauswertung", "Literaturanalyse", "Quellen zusammenfassen", "Quellen vergleichen", "was steht in den Papers", "extrahiere die Kernaussagen", "Interviews auswerten", "Fragebogen analysieren", "Empirik auswerten", "erstelle eine Quellenübersicht", "werte die Quellen aus", "Gem erstellen", "Gemini Auswertung". Nicht für Quellensuche — dafür gibt es `studienarbeit-recherche`.
+  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): leitet den
+  User durch die Quellenauswertung mit Gemini und NotebookLM. Die in Phase 2
+  gesammelten Quellen liegen bereits in einem NotebookLM-Notebook; der User öffnet
+  Gemini im Browser, verknüpft das Notebook und wertet die Quellen mit
+  vorbereiteten Prompts aus. Claude liefert Gem-Systemprompt und
+  kapitelspezifische Prompts und bringt den Gemini-Output ins Writer-Format. Bei
+  empirischer Komponente zusätzlich ein Empirik-Strang für Interviews, Fragebögen
+  und Beobachtungen. Spart Token, weil die Analyse bei Gemini läuft. Nutze bei:
+  "Quellen auswerten", "Literatur analysieren", "Quellenauswertung", "Quellen
+  zusammenfassen", "Kernaussagen extrahieren", "Interviews auswerten", "Fragebogen
+  analysieren", "Gem erstellen", "Gemini Auswertung". Nicht für die Quellensuche —
+  dafuer gibt es studienarbeit-recherche.
 ---
 
 # Studienarbeit — Phase 3: Quellenauswertung (via Gemini)
@@ -222,10 +233,33 @@ Wenn der User den Gemini-Output zurückbringt, machst du Folgendes:
 2. **Ergänze fehlende Abschnitte:** Falls Gemini einen Abschnitt ausgelassen hat (z.B. Argumentationsketten, Forschungslücken), weise darauf hin und schlage einen Nachfrage-Prompt für Gemini vor
 3. **Markierungen setzen:**
    - `[SEITE PRÜFEN]` bei Seitenangaben, die verdächtig rund oder unplausibel wirken
+   - **Seiten-Check gegen den Seitenbereich** (siehe unten)
    - `[QUELLE ERGÄNZEN]` bei Aspekten, die keine Quellenabdeckung haben
 4. **Formatierung normalisieren:** Harvard-Zitierformat konsistent machen, Obsidian-Wiki-Links ergänzen wo nötig
 5. **Quellenverzeichnis prüfen:** Sind alle zitierten Quellen im Verzeichnis am Ende aufgeführt?
 6. **Datei erstellen:** Speichere als `02-quellen/Auswertung_Kapitel_[X]_[Kurztitel].md`
+
+#### Seiten-Check (Pflicht bei jeder Auswertung)
+
+Der häufigste Seitenfehler ist kein erfundenes Zitat, sondern ein Versatz: Gemini oder NotebookLM nennen die Seite im PDF statt der gedruckten Seitenzahl. Bei einem Artikel auf S. 319–340 wird aus der gedruckten S. 320 dann „S. 2". So prüfst du jede Fundstelle:
+
+1. Hole den Seitenbereich der Quelle aus dem Recherche-Protokoll (Spalte „Seiten").
+2. **Liegt die Seite im Bereich** → passt. Nichts ändern.
+3. **Liegt sie außerhalb, aber Seite + (Bereichsanfang − 1) liegt im Bereich** → typischer PDF-Versatz. Ersetze nicht still, sondern markiere: `[SEITE PRÜFEN: vermutlich S. 320 statt S. 2, PDF-Versatz]`.
+4. **Liegt sie auch dann außerhalb** → `[SEITE PRÜFEN: S. 500 liegt außerhalb von 319–340]`.
+5. **Kein Seitenbereich bekannt** (Buch, Report, Webseite) → nur prüfen, ob der Anker vorhanden ist. Fehlt der Anker → `[SEITE PRÜFEN]`.
+6. **Bereich beginnt bei S. 1** (Bücher, viele Reports): Ein PDF-Versatz ist dann rechnerisch nicht erkennbar, weil PDF- und gedruckte Seite oft nur durch Vorwort oder Deckblatt abweichen. Prüfe hier den Anker per Nachfrage-Prompt, wenn PDF-Seite und gedruckte Seite in der Auswertung gleich sind.
+
+Für alle markierten Stellen gibst du dem User einen Nachfrage-Prompt für NotebookLM oder den Gem, mit dem wörtlichen Anker:
+
+```
+In der Quelle [Autor, Jahr] steht die Passage, die mit „[Anker]" beginnt.
+1. Auf welcher PDF-Seite steht sie, gezählt ab Seite 1 inklusive Deckblatt?
+2. Welche Seitenzahl ist auf dieser Seite gedruckt (Kopf- oder Fußzeile)?
+Antworte nur mit den beiden Zahlen.
+```
+
+Die gedruckte Zahl aus Frage 2 kommt in die Auswertung. Bleibt sie unklar, bleibt die Markierung stehen.
 
 **Was Claude in der Nachbearbeitung NICHT tut:**
 - Keine neuen Quellen erfinden oder ergänzen

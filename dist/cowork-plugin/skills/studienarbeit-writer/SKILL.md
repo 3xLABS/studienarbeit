@@ -111,7 +111,7 @@ Verwende den Harvard-Zitierstil konsequent. Zusätzlich zu den klassischen In-Te
 - Mehrere Quellen: (Müller, 2023, S. 12; Schmidt, 2021, S. 34)
 - Autor im Satzfluss: Müller (2023, S. 45) argumentiert, dass...
 
-**Seitenangaben:** Gib immer Seitenzahlen an, wenn du dich auf eine konkrete Stelle beziehst. Bei ganzen Werken oder übergreifenden Argumenten kann die Seitenangabe entfallen.
+**Seitenangaben:** Gib immer Seitenzahlen an, wenn du dich auf eine konkrete Stelle beziehst. Bei ganzen Werken oder übergreifenden Argumenten kann die Seitenangabe entfallen. Übernimm immer die **gedruckte** Seitenzahl aus der Quellenauswertung, nie die PDF-Seite. Steht in der Auswertung ein `[SEITE PRÜFEN …]`, übernimmst du den Marker in den Text. Eine vermutete Seite („vermutlich S. 320") ist noch kein Beleg und wird nicht still eingesetzt.
 
 **Obsidian-Verlinkung der Quellen:**
 
