@@ -358,6 +358,11 @@ Nachdem du den Text geschrieben hast, prüfe ihn selbst anhand dieser Checkliste
 - Gibt es logische Übergänge zwischen den Absätzen?
 - Ist der Sprachstil konsistent (keine Umgangssprache, keine Übertreibungen)?
 - Stimmt die Quellentabelle am Ende mit den tatsächlich im Text zitierten Quellen überein?
+- Ist jede zitierte Quelle im Recherche-Protokoll als `✅ verifiziert` oder `⚠️ manuell` markiert? Quellen mit `❌` werden nicht zitiert.
+- Ist jeder Eintrag der Belegpflicht-Liste aus `01-docs/Gliederung.md` für dieses Kapitel belegt oder als `[QUELLE ERGÄNZEN]` markiert?
+- Keine Überlegenheits- oder Neuheitsbehauptung gegenüber einer Quelle („besser als", „erstmals", „im Gegensatz zu X zeigt diese Arbeit"), wenn dieser Vergleich nicht in der eigenen Auswertung oder Empirie tatsächlich gezogen wurde. Andere Arbeiten sonst als ergänzend oder verwandt einordnen.
+- Stammt jede Zahl (Prozent, Stichprobe, Mittelwert) wörtlich aus Quellenauswertung oder Empiriedaten? Nichts runden, nichts schätzen, nichts ergänzen.
+- Die Arbeit entsteht nur aus dem Material dieses Projekts (Quellenauswertung, Empirie, Meta-Block). Kein Wissen aus dem Training als Fakt ohne Beleg.
 
 Falls du bei der Prüfung Probleme findest, korrigiere sie, bevor du den Text dem User präsentierst. Markiere etwaige verbleibende Schwächen transparent, z.B. "Hinweis: Für den Übergang zwischen Abschnitt 3.2.1 und 3.2.2 wäre eine zusätzliche Quelle hilfreich."
 

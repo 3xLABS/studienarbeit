@@ -262,6 +262,14 @@ Frage jederzeit: „Wie ist der Stand?" — Claude liest die Fortschritt.md und 
 6. Formatierung mit Hochschul-Vorgaben abgeglichen?
 7. Eidesstattliche Erklärung unterschrieben?
 
+## Was aus PaperOrchestra übernommen ist (v1.2.0)
+
+Drei Mechaniken stammen aus [PaperOrchestra](https://github.com/google-research/paper-orchestra) (Google Cloud AI Research, Apache 2.0), einem Multi-Agent-Framework für Forschungs-Paper. Übernommen sind die Ideen, kein Code:
+
+- **Gliederung als Suchplan** (`studienarbeit-planung`): Einleitung (Makro) und Forschungsstand (Mikro, Cluster mit Grenze und Brücke) getrennt, Belegpflicht-Liste pro Unterkapitel.
+- **Quellen-Check** (`studienarbeit-recherche`): Jede Quelle wird gegen Crossref oder Semantic Scholar geprüft, mit Stichtag und Dubletten-Abgleich. Nicht auffindbare Quellen sind nicht zitierfähig.
+- **Score-Gate** (`studienarbeit-reviewer` + `studienarbeit-ueberarbeitung`): Reviews vergeben Punkte, eine Überarbeitung mit schlechterem Score wird verworfen, maximal 3 Runden.
+
 ## Lizenz
 
 Frei nutzbar für persönliche und akademische Zwecke.

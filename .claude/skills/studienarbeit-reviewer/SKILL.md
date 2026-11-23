@@ -265,18 +265,26 @@ Jede Review-Datei folgt exakt diesem Aufbau:
 
 ## Bewertungsübersicht (für Fortschritt.md)
 
-| Kriterium | Bewertung |
-|---|---|
-| Struktur | [Stark/Solide/Ausbaufähig/Schwach] |
-| Argumentation | [Stark/Solide/Ausbaufähig/Schwach] |
-| Quellenarbeit | [Stark/Solide/Ausbaufähig/Schwach] |
-| Sprache | [Stark/Solide/Ausbaufähig/Schwach] |
-| Formalia | [Stark/Solide/Ausbaufähig/Schwach] |
-| **Gesamt** | **[Stark/Solide/Ausbaufähig/Schwach]** |
-| **Status** | **[Freigegeben / Überarbeitung nötig / Grundlegende Überarbeitung]** |
-| **Muss-Punkte** | [Anzahl] |
-| **[QUELLE ERGÄNZEN]-Stellen** | [Anzahl] |
+| Kriterium | Bewertung | Punkte (1–10) |
+|---|---|---|
+| Struktur | [Stark/Solide/Ausbaufähig/Schwach] | [x] |
+| Argumentation | [Stark/Solide/Ausbaufähig/Schwach] | [x] |
+| Quellenarbeit | [Stark/Solide/Ausbaufähig/Schwach] | [x] |
+| Sprache | [Stark/Solide/Ausbaufähig/Schwach] | [x] |
+| Formalia | [Stark/Solide/Ausbaufähig/Schwach] | [x] |
+| **Gesamt** | **[Stark/Solide/Ausbaufähig/Schwach]** | **[x,x]** |
+| **Status** | **[Freigegeben / Überarbeitung nötig / Grundlegende Überarbeitung]** | |
+| **Muss-Punkte** | [Anzahl] | |
+| **[QUELLE ERGÄNZEN]-Stellen** | [Anzahl] | |
+
+## Fragen an den Text
+
+- [Frage, die ein Prüfer beim Lesen stellen würde, z. B. „Warum genau 12 Interviews?"]
 ```
+
+**Punkte (nach PaperOrchestra):** Jedes Kriterium bekommt zusätzlich zur Stufe eine Punktzahl, die zur Stufe passt: Stark 8–10, Solide 6–7, Ausbaufähig 4–5, Schwach 1–3. Gesamt = Mittelwert der fünf Kriterien, eine Nachkommastelle. Die Punkte sind das Messinstrument für das Score-Gate in `studienarbeit-ueberarbeitung`: Eine Überarbeitung, die die Gesamtpunktzahl senkt, wird verworfen. Bewerte deshalb bei einem Re-Review mit demselben Maßstab wie im ersten Review, nicht wohlwollender, weil schon überarbeitet wurde.
+
+**Fragen an den Text** sind keine Muss-Punkte, sondern offene Fragen, die die Überarbeitung direkt im Kapitel beantworten soll (nicht in einem Antwortschreiben).
 
 **Warum dieser Aufbau:**
 - Die **Status-Entscheidung** steht ganz oben — der User sieht sofort, ob das Kapitel freigegeben ist oder überarbeitet werden muss

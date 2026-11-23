@@ -138,6 +138,40 @@ Mit der Forschungsfrage steht das Ziel — jetzt der Weg dorthin.
 - Kein Kapitel mit nur einem Unterkapitel (wenn 3.1, dann auch 3.2)
 - Seitenzahlen addieren sich zum Gesamtumfang
 
+### Gliederung als Suchplan (nach PaperOrchestra)
+
+Die Gliederung ist nicht nur ein Inhaltsverzeichnis, sondern der Auftrag an Recherche und Writer. Ergänze sie deshalb um drei Blöcke. Das Muster stammt aus dem Outline-Agenten von Google PaperOrchestra (github.com/google-research/paper-orchestra), angepasst auf deutsche Studienarbeiten.
+
+**1. Einleitung und Forschungsstand trennen (keine doppelten Quellen):**
+
+- **Einleitung = Makro-Ebene.** Relevanz des Problems, Überblicks- und Grundlagenwerke. Formuliere die *Relevanz-These* und die *Lücke*, und zwar nur so weit, wie deine eigene Arbeit sie tatsächlich beantwortet (nicht mehr versprechen, als Methode und Daten hergeben). Dazu 3–5 Suchrichtungen.
+- **Theoretischer Rahmen / Forschungsstand = Mikro-Ebene.** Teile das Feld in 2–4 Cluster (Denkschulen, Modelle, Ansätze). Pro Cluster:
+  - **Stand:** Was ist der aktuelle Stand in diesem Cluster?
+  - **Grenze (Hypothese):** Wo stößt der Ansatz vermutlich an seine Grenze, bezogen auf deine Forschungsfrage?
+  - **Suchbegriffe zur Grenze:** 2–3 enge Suchbegriffe (DE + EN), die genau diese Grenze belegen sollen
+  - **Brücke:** Wie greift deine Arbeit diese Grenze auf?
+
+**2. Inhaltspunkte mit Materialbezug.** Jedes Unterkapitel bekommt 2–4 Inhaltspunkte, die auf konkretes Material zeigen.
+- Schlecht: „Beschreibe das Modell."
+- Gut: „Erkläre das Technologieakzeptanzmodell anhand der Interview-Codes K2 und K4."
+
+**3. Belegpflicht-Liste pro Unterkapitel.** Jede Theorie, jedes Modell, jede Methode, jeder Datensatz und jede Kennzahl, die im Kapitel vorkommt, braucht eine Belegstelle, auch wenn es „jeder kennt" (z. B. SWOT, Porter, Likert-Skala). Format:
+- `Autor (exakter Titel)`, aber **nur wenn du Autor und Titel sicher kennst**. Nie raten.
+- Sonst: `Grundlagenwerk zu „[Begriff]"`. Die Recherche sucht dann die echte Quelle.
+
+Optional, wenn die Arbeit Abbildungen braucht: ein **Abbildungsplan** mit ID (sprechend, z. B. `abb_modellvergleich`), Typ (Diagramm aus Daten / Schaubild), Datenquelle (Auswertung, Empirie, beides) und Ziel (welche Aussage die Abbildung belegen soll).
+
+Beispiel für einen Cluster-Eintrag:
+
+```markdown
+### 2.2 Digitale Reifegradmodelle
+- **Stand:** Reifegradmodelle (z. B. für Industrie 4.0) messen Digitalisierung in Stufen.
+- **Grenze (Hypothese):** Sie sind für Großunternehmen gebaut und bilden KMU schlecht ab.
+- **Suchbegriffe zur Grenze:** "maturity model SME limitations", "Reifegradmodell KMU Kritik"
+- **Brücke:** Die Interviews dieser Arbeit erheben genau die KMU-Perspektive.
+- **Belegpflicht:** Grundlagenwerk zu „Capability Maturity Model"; Grundlagenwerk zu „Industrie 4.0 Reifegradmodell"
+```
+
 **Speichern als `01-docs/Gliederung.md`.**
 
 ## Schritt 4: Ordnerstruktur anlegen

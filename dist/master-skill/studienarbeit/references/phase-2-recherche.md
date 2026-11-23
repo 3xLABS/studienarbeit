@@ -1,7 +1,17 @@
 ---
 name: studienarbeit-recherche
 description: >
-  Phase 2 der Studienarbeit-Pipeline: Systematische Quellenrecherche für Hausarbeit, Seminararbeit, Bachelorarbeit und Masterarbeit (Literatur-Strang). Claude entwickelt die Recherchestrategie, generiert Suchbegriffe und gibt dem User Schritt-für-Schritt-Anleitungen für die Recherche in NotebookLM (im Browser). Der User navigiert selbstständig zu NotebookLM und führt die Suche dort durch. Claude dokumentiert alles im Recherche-Protokoll. Setzt voraus, dass Phase 1 (Planung) abgeschlossen ist — Forschungsfrage und Gliederung müssen vorliegen. Für Arbeiten mit empirischer Komponente (Interviews, Umfragen, Beobachtungen) steht ein paralleler Empirik-Strang zur Verfügung. Übergibt sauber an Phase 3 (Quellenauswertung). Nutze bei: "Quellen suchen", "Literatur recherchieren", "Papers finden", "Literaturrecherche", "Quellen sammeln", "recherchiere zu [Thema]", "finde Quellen", "Literatursuche", "welche Papers gibt es zu", "Recherche starten", "Deep Research", "Quellensuche", "ich brauche Literatur zu". Nicht für Quellenauswertung — dafür gibt es `studienarbeit-quellenauswertung`.
+  Phase 2 der Studienarbeit-Pipeline: systematische Quellenrecherche für
+  Hausarbeit, Seminararbeit, Bachelorarbeit und Masterarbeit (Literatur-Strang).
+  Claude entwickelt die Recherchestrategie, generiert Suchbegriffe und gibt
+  Schritt-für-Schritt-Anleitungen für die Recherche in NotebookLM (im Browser);
+  der User führt die Suche selbst durch, Claude dokumentiert sie im Recherche-
+  Protokoll. Setzt Phase 1 (Planung) voraus — Forschungsfrage und Gliederung
+  müssen vorliegen. Für empirische Arbeiten steht ein paralleler Empirik-Strang
+  bereit. Übergibt an Phase 3 (Quellenauswertung). Nutze bei: "Quellen suchen",
+  "Literatur recherchieren", "Papers finden", "Literaturrecherche", "Quellen
+  sammeln", "finde Quellen", "Deep Research", "ich brauche Literatur zu". Nicht
+  für die Quellenauswertung — dafuer gibt es studienarbeit-quellenauswertung.
 ---
 
 # Studienarbeit — Phase 2: Recherche
@@ -83,6 +93,8 @@ Beispiel für Kapitel "Theoretische Grundlagen des Risikomanagements":
 
 Schlage dem User 3–5 Suchbegriffe pro Kapitel vor und lass ihn bestätigen oder anpassen.
 
+**Wenn `01-docs/Gliederung.md` einen Suchplan enthält** (Suchrichtungen, Cluster mit „Suchbegriffe zur Grenze", Belegpflicht-Liste): Nimm diese als Grundlage, statt neu zu erfinden. Jeder Eintrag der Belegpflicht-Liste ist ein eigener Suchauftrag. Halte Einleitung (Überblick, Relevanz) und Forschungsstand (Cluster, Grenzen) getrennt, damit nicht dieselben Quellen in beiden Kapiteln landen.
+
 ### 3. Quellen sammeln (User-Anleitung)
 
 Leite den User durch drei Kanäle:
@@ -130,6 +142,24 @@ Erkläre dem User, worauf er achten muss:
 
 Frage den User nach fehlgeschlagenen Uploads und dokumentiere sie.
 
+### 4b. Quellen-Check: Existenz und Stichtag (nach PaperOrchestra)
+
+Bevor eine Quelle ins Protokoll kommt, prüfst **du** (Claude), ob sie wirklich existiert. Das ist die Mechanik aus dem Literatur-Agenten von Google PaperOrchestra: Zitiert wird nur, was in einer echten Literaturdatenbank auffindbar ist.
+
+1. **Existenz prüfen.** Suche jede Quelle per Titel (plus Erstautor, Jahr) in einer offenen Datenbank, z. B.:
+   - Crossref (Hauptweg, ohne Key): `https://api.crossref.org/works?query.bibliographic=<Titel Autor Jahr>&rows=3`
+   - Semantic Scholar (Fallback, ohne API-Key oft gedrosselt mit Fehler 429): `https://api.semanticscholar.org/graph/v1/paper/search?query=<Titel>&fields=title,year,authors,externalIds&limit=3`
+   - Bei Büchern und Reports: Verlagsseite, DNB-Katalog oder Website der Institution
+   Treffer gilt nur, wenn Titel, Erstautor und Jahr übereinstimmen. Der erste Datenbank-Treffer ist nicht automatisch der richtige: Crossref liefert bei bekannten Titeln auch Nachdrucke oder fremde DOIs. Notiere die DOI, falls vorhanden.
+2. **Stichtag.** Stichtag ist das Recherchedatum. Quellen mit einem Datum danach (falsch erkannte Metadaten) oder ohne Datum werden markiert. Preprints (arXiv, SSRN) als solche kennzeichnen.
+3. **Dubletten.** Gleicher Titel in anderer Schreibweise, Preprint plus Verlagsversion: nur einmal führen, bevorzugt die Verlagsversion.
+4. **Ergebnis je Quelle:**
+   - `✅ verifiziert` (Datenbank-Treffer oder Verlags-/Institutionsseite)
+   - `⚠️ manuell` (nicht in Datenbanken, aber PDF liegt in NotebookLM vor, z. B. graue Literatur)
+   - `❌ nicht auffindbar`: nicht zitierfähig. User bitten, die Quelle zu prüfen oder zu ersetzen
+
+Kein Web-Zugriff in der Session? Dann sag das offen, setze alle Quellen auf `⚠️ manuell` und bitte den User, die DOIs stichprobenartig selbst zu prüfen. Nie einen Check als erledigt melden, der nicht gelaufen ist.
+
 ### 5. Quellen sichten und filtern
 
 Leite den User an, die Quellen grob zu sichten:
@@ -158,10 +188,10 @@ Erstelle auf Basis der User-Rückmeldungen ein Recherche-Protokoll in `02-quelle
 
 ## Gesammelte Quellen
 
-| # | Titel | Autor | Jahr | Typ | Relevanz |
-|---|---|---|---|---|---|
-| 1 | [Titel] | [Autor] | 2023 | Paper/Buch/Web | ★★★★☆ |
-| 2 | ... | ... | ... | ... | ... |
+| # | Titel | Autor | Jahr | Typ | Relevanz | Check | DOI |
+|---|---|---|---|---|---|---|---|
+| 1 | [Titel] | [Autor] | 2023 | Paper/Buch/Web | ★★★★☆ | ✅ verifiziert | 10.xxxx/... |
+| 2 | ... | ... | ... | ... | ... | ⚠️ manuell | – |
 
 ## Fehlgeschlagene Uploads
 - [URL] — Grund: [Paywall / Login / Captcha / ...]

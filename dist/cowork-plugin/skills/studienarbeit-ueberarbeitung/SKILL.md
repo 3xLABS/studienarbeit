@@ -239,6 +239,27 @@ Bevor du den Text übergibst, prüfe:
 
 Falls die Überarbeitung den Text deutlich verlängert hat (>20% über Seitenvorgabe), weise den User darauf hin und schlage vor, welche Passagen gekürzt werden könnten.
 
+**Fragen an den Text** aus dem Review beantwortest du an einer passenden Stelle im Kapitel selbst, nicht in einer Notiz an den Prüfer. Verlangt eine Frage neue Daten, Interviews oder Quellen, die im Projekt nicht vorliegen: nichts erfinden. Notiere sie unter „Verbleibende offene Punkte" (Nachrecherche oder Betreuer-Frage) oder ordne sie in der Diskussion als Limitation ein.
+
+## Score-Gate: Überarbeitung nur behalten, wenn sie besser ist (nach PaperOrchestra)
+
+Überarbeitungen können einen Text auch verschlechtern. Der Refinement-Loop von Google PaperOrchestra löst das mit einem Rückwärtsgang. So läuft er hier:
+
+1. Nach dem Speichern von `_vN` das Kapitel mit `studienarbeit-reviewer` erneut reviewen (Re-Review, gleicher Maßstab).
+2. Gesamtpunktzahl alt gegen neu vergleichen:
+   - **Höher** → `_vN` übernehmen. Weiter mit der nächsten Runde, falls noch Muss-Punkte offen sind.
+   - **Gleich** → `_vN` nur übernehmen, wenn kein einzelnes Kriterium gesunken ist. Sonst wie „niedriger".
+   - **Niedriger** → `_vN` verwerfen. Die Vorgängerversion bleibt die aktuelle Fassung (Datei-Link in der Fortschritt.md nicht umstellen). `_vN` bleibt als Datei liegen, wird aber im Kopf mit `> **Status:** Verworfen (Score [alt] → [neu])` markiert. Beim nächsten Versuch eine andere Strategie wählen, nicht dieselbe Änderung erneut.
+3. **Maximal 3 Runden** pro Kapitel am Stück. Danach entscheidet der User, auch wenn noch Punkte offen sind.
+
+Trage im Änderungsprotokoll jeder Version eine Zeile ein:
+
+```markdown
+**Score:** [alt] → [neu] | **Entscheidung:** übernommen / verworfen
+```
+
+Läuft kein Re-Review (z. B. weil der User nur schnell Betreuer-Feedback einarbeiten will), sag das ausdrücklich und setze keine Score-Zeile.
+
 ## Fortschritt.md aktualisieren
 
 Aktualisiere `04-fortschritt/Fortschritt.md` nach der Überarbeitung. Verwende das erweiterte Format mit Review-Spalten:
