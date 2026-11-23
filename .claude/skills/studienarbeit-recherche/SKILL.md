@@ -151,11 +151,15 @@ Bevor eine Quelle ins Protokoll kommt, prüfst **du** (Claude), ob sie wirklich 
    - Semantic Scholar (Fallback, ohne API-Key oft gedrosselt mit Fehler 429): `https://api.semanticscholar.org/graph/v1/paper/search?query=<Titel>&fields=title,year,authors,externalIds&limit=3`
    - Bei Büchern und Reports: Verlagsseite, DNB-Katalog oder Website der Institution
    Treffer gilt nur, wenn Titel, Erstautor und Jahr übereinstimmen. Der erste Datenbank-Treffer ist nicht automatisch der richtige: Crossref liefert bei bekannten Titeln auch Nachdrucke oder fremde DOIs. Notiere die DOI, falls vorhanden.
+   - **Erstautor heißt Erstautor:** Steht der Name nur als Mitautor im Treffer, ist die Quelle falsch zugeordnet (Status `abweichend`, siehe unten).
+   - **Untertitel:** Crossref speichert Untertitel in einem eigenen Feld (`subtitle`). Vergleiche deshalb auch Haupttitel plus Untertitel. Ist der Crossref-Haupttitel der Anfang des Quellentitels, zählt der Titel als gleich.
+   - **Konferenzbände ohne DOI:** AIS-Konferenzen (PACIS, ECIS, ICIS, AMCIS) und viele deutsche Tagungsbände stehen nicht in Crossref. Prüfe sie in der AIS eLibrary (aisel.aisnet.org) oder auf der Tagungsseite und setze bei Treffer `⚠️ manuell`, nicht `❌`.
 2. **Stichtag.** Stichtag ist das Recherchedatum. Quellen mit einem Datum danach (falsch erkannte Metadaten) oder ohne Datum werden markiert. Preprints (arXiv, SSRN) als solche kennzeichnen.
 3. **Dubletten.** Gleicher Titel in anderer Schreibweise, Preprint plus Verlagsversion: nur einmal führen, bevorzugt die Verlagsversion.
 4. **Ergebnis je Quelle:**
    - `✅ verifiziert` (Datenbank-Treffer oder Verlags-/Institutionsseite)
    - `⚠️ manuell` (nicht in Datenbanken, aber PDF liegt in NotebookLM vor, z. B. graue Literatur)
+   - `↔ abweichend`: Titel gefunden, aber Erstautor oder Jahr passen nicht. Angaben aus dem Treffer übernehmen und den User bestätigen lassen, bevor die Quelle zitiert wird
    - `❌ nicht auffindbar`: nicht zitierfähig. User bitten, die Quelle zu prüfen oder zu ersetzen
 
 Kein Web-Zugriff in der Session? Dann sag das offen, setze alle Quellen auf `⚠️ manuell` und bitte den User, die DOIs stichprobenartig selbst zu prüfen. Nie einen Check als erledigt melden, der nicht gelaufen ist.

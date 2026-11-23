@@ -249,6 +249,7 @@ Falls die Überarbeitung den Text deutlich verlängert hat (>20% über Seitenvor
 2. Gesamtpunktzahl alt gegen neu vergleichen:
    - **Höher** → `_vN` übernehmen. Weiter mit der nächsten Runde, falls noch Muss-Punkte offen sind.
    - **Gleich** → `_vN` nur übernehmen, wenn kein einzelnes Kriterium gesunken ist. Sonst wie „niedriger".
+   - **Rausch-Schwelle:** Unterschiede unter 0,5 Punkten im Gesamtwert gelten als **gleich**. Im Testlauf (Nov 2026) bekam derselbe Text von zwei Reviewern 5,8 und 5,4 Punkte, kleinere Abstände sind also Zufall. Bei „gleich" entscheidet zuerst die Zahl der Muss-Punkte: weniger Muss-Punkte → übernehmen, mehr → verwerfen. Erst bei gleicher Zahl gilt die Regel „kein Einzelkriterium gesunken".
    - **Niedriger** → `_vN` verwerfen. Die Vorgängerversion bleibt die aktuelle Fassung (Datei-Link in der Fortschritt.md nicht umstellen). `_vN` bleibt als Datei liegen, wird aber im Kopf mit `> **Status:** Verworfen (Score [alt] → [neu])` markiert. Beim nächsten Versuch eine andere Strategie wählen, nicht dieselbe Änderung erneut.
 3. **Maximal 3 Runden** pro Kapitel am Stück. Danach entscheidet der User, auch wenn noch Punkte offen sind.
 

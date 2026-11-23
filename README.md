@@ -270,6 +270,8 @@ Drei Mechaniken stammen aus [PaperOrchestra](https://github.com/google-research/
 - **Quellen-Check** (`studienarbeit-recherche`): Jede Quelle wird gegen Crossref oder Semantic Scholar geprüft, mit Stichtag und Dubletten-Abgleich. Nicht auffindbare Quellen sind nicht zitierfähig.
 - **Score-Gate** (`studienarbeit-reviewer` + `studienarbeit-ueberarbeitung`): Reviews vergeben Punkte, eine Überarbeitung mit schlechterem Score wird verworfen, maximal 3 Runden.
 
+**v1.2.1 (nach Testlauf):** Untertitel-Vergleich, Erstautor-Pflicht und AIS-Konferenzbände im Quellen-Check, Status `abweichend` für falsch zugeordnete Quellen, Rausch-Schwelle von 0,5 Punkten im Score-Gate (zwei Reviews desselben Texts lagen 0,4 Punkte auseinander).
+
 ## Lizenz
 
 Frei nutzbar für persönliche und akademische Zwecke.
