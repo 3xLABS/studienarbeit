@@ -92,7 +92,7 @@ Bevor du auch nur eine Zeile formatierst, lies alle Kapitel in der Reihenfolge d
 - Sind "vgl." bei indirekten Zitaten, Seitenangaben und Autorenformate konsistent?
 - Werden dieselben Quellen in verschiedenen Kapiteln gleich zitiert? (z.B. nicht einmal "Müller & Schmidt, 2021" und anderswo "Müller und Schmidt, 2021")
 - Gibt es noch offene [QUELLE ERGÄNZEN]-Stellen? Falls ja, weise den User explizit darauf hin — diese müssen vor Abgabe geschlossen werden.
-- **Seiten-Check über die ganze Arbeit:** Liste jede Zitation mit Seitenangabe auf und vergleiche sie mit dem Seitenbereich der Quelle im Recherche-Protokoll (Regeln wie in `studienarbeit-quellenauswertung`, Abschnitt Seiten-Check). Seiten außerhalb des Bereichs und alle offenen `[SEITE PRÜFEN]`-Stellen kommen in den Prüfbericht unter „Kritische Punkte", jeweils mit dem Nachfrage-Prompt für NotebookLM.
+- **Seiten- und Zitat-Check über die ganze Arbeit:** Prüfe jedes direkte Zitat gegen die Fundstellen in `02-quellen/fundstellen/`: Gibt es eine Fundstelle mit demselben Wortlaut und derselben Seite und Status `✅ belegt` oder `⚠️ korrigiert`? Zitate ohne passende Fundstelle und alle offenen `[SEITE PRÜFEN]`- und `[ZITAT PRÜFEN]`-Stellen kommen in den Prüfbericht unter „Kritische Punkte", jeweils mit Kapitel und Quelle. Für eine einzelne Quelle kannst du das Prüfskript der Quellenauswertung erneut laufen lassen (`scripts/fundstellen_pruefen.py`).
 
 ### 1.5 Sprachliche Konsistenz
 

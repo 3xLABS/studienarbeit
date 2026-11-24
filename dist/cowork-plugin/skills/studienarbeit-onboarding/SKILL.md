@@ -83,7 +83,7 @@ curl -s --max-time 10 -o /dev/null -w "%{http_code}" https://www.google.com
 ### Check 3: Google-Account für NotebookLM & Gemini
 
 **Was prüfen:**
-Der User braucht einen Google-Account, um NotebookLM und Google AI Studio (Gemini) nutzen zu können. Diese Tools werden in Phase 2 (Recherche) und Phase 3 (Quellenauswertung) vom User **manuell im Browser** bedient — Claude gibt Anleitungen und Prompts, aber die Navigation und Bedienung liegt beim User.
+Der User braucht einen Google-Account für NotebookLM (Phase 2, Recherche) und, falls Empirie geplant ist, für Gemini (Empirik-Strang in Phase 3). Diese Tools bedient der User **manuell im Browser**. Die Literatur-Auswertung in Phase 3 läuft dagegen lokal und braucht keinen Google-Account.
 
 **Wie prüfen:**
 Frage den User: „Hast du einen Google-Account, mit dem du auf NotebookLM (notebooklm.google.com) und Google AI Studio (aistudio.google.com) zugreifen kannst?"
@@ -129,19 +129,27 @@ Zusätzlich den Foundation-Ordner:
 
 ---
 
-### Check 5: Python-Umgebung
+### Check 5: Code-Umgebung (Shell, uv, anydoc)
 
 **Was prüfen:**
-Python 3 muss verfügbar sein (wird für diverse Skripte in der Finalisierungsphase benötigt).
+Die Quellenauswertung (Phase 3) wandelt Quellen lokal mit Python-Skripten um. Dafür braucht Claude eine Shell und das Werkzeug `uv`, das sich das passende Python (3.10 oder neuer) selbst holt. Auf vielen Macs ist nur ein zu altes Python vorinstalliert, deshalb nicht `python3` direkt verwenden.
 
 **Wie prüfen:**
-```bash
-python3 --version 2>/dev/null || python --version 2>/dev/null
-```
+1. Kannst du Befehle ausführen? Falls nicht (z. B. im Chat-Tab): ❌, der User soll die Pipeline im **Code-Tab der Claude Desktop-App** öffnen.
+2. `uv --version`
+3. Fehlt uv, installiere es (mit kurzer Ansage an den User, was du tust):
+   - macOS / Linux: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+   - Windows (PowerShell): `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+   Danach ein neues Terminal bzw. `uv` über den vollen Pfad aufrufen (`~/.local/bin/uv`), falls es noch nicht gefunden wird.
+4. Smoke-Test anydoc (lädt beim ersten Mal die Pakete, danach im Cache):
+   ```bash
+   uv run --with firecrawl-anydoc --with pypdf python -c "import anydoc, pypdf; print('anydoc ok')"
+   ```
 
 **Ergebnis:**
-- ✅ wenn Python 3.8+ verfügbar ist
-- ⚠️ wenn nicht vorhanden oder zu alte Version (kein K.o.-Kriterium, aber Finalisierung ist eingeschränkt)
+- ✅ wenn Shell, uv und der Smoke-Test funktionieren
+- ⚠️ wenn uv nicht installiert werden konnte → Phase 3 (Literatur) ist blockiert, alle anderen Phasen laufen
+- ❌ wenn keine Shell verfügbar ist → Code-Tab der Desktop-App nutzen
 
 ---
 

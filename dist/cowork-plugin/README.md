@@ -38,7 +38,8 @@ In Cowork: Klick auf die `studienarbeit-pipeline.plugin`-Datei → "Save plugin"
 ## Externe Tools
 
 - **NotebookLM** (notebooklm.google.com) — Quellenspeicher
-- **Gemini / Google AI Studio** — Quellenauswertung (Phase 3)
+- **Claude Desktop-App, Code-Tab** mit `uv`: lokale Quellenauswertung (Phase 3) via anydoc
+- **Gemini**: nur für den Empirik-Strang (eigene Interviews, Fragebögen)
 - **Perplexity** — Quellenrecherche (Phase 2)
 - **Obsidian** (optional) — Vault-Ansicht
 

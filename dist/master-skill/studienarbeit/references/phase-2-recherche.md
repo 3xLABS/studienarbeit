@@ -242,7 +242,8 @@ Wenn die Recherche für ein Kapitel abgeschlossen ist:
 **Checkliste:**
 - [ ] NotebookLM-Notebook enthält mindestens 10–15 relevante Quellen für das Kapitel
 - [ ] Alle Quellen sind in NotebookLM indexiert (Status "ready")
-- [ ] Recherche-Protokoll `02-quellen/Recherche_Kapitel_[X]_*.md` ist geschrieben
+- [ ] Recherche-Protokoll `02-quellen/Recherche_Kapitel_[X]_*.md` ist geschrieben (mit Spalte „Seiten")
+- [ ] Die Volltexte liegen als Dateien in `02-quellen/dateien/` (Namensmuster `Nachname Jahr Stichwort.pdf`, Webseiten im Browser per „Drucken → Als PDF speichern")
 - [ ] Fehlgeschlagene Uploads sind dokumentiert
 - [ ] Fortschritt.md ist aktualisiert
 
@@ -251,7 +252,7 @@ Wenn die Recherche für ein Kapitel abgeschlossen ist:
 > Phase 2 (Recherche) für Kapitel [X] ist abgeschlossen. Im NotebookLM-Notebook liegen [Anzahl] indexierte Quellen. Das Recherche-Protokoll findest du unter [[Recherche_Kapitel_X_Kurztitel]].
 >
 > **Nächster Schritt — Phase 3: Quellenauswertung.**
-> Starte den `studienarbeit-quellenauswertung`-Skill. Er führt dich durch die Auswertung der Quellen mit Gemini und bereitet die Ergebnisse für den Writer-Skill auf.
+> Lege die Volltexte deiner Quellen in `02-quellen/dateien/` (PDF, Word, PowerPoint oder EPUB) und starte dann den `studienarbeit-quellenauswertung`-Skill. Er wandelt die Dateien lokal um, sucht pro Quelle die wichtigsten Stellen mit geprüfter Seitenzahl und bereitet alles für den Writer-Skill auf.
 
 ## Zusammenspiel mit anderen Skills
 

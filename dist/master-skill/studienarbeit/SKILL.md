@@ -4,7 +4,7 @@ description: >
   Komplette Pipeline für eine wissenschaftliche Arbeit — Hausarbeit,
   Seminararbeit, Studienarbeit, Bachelorarbeit oder Masterarbeit. Passt sich an
   den Arbeitstyp an (10 bis 100 Seiten, mit oder ohne Empirie). Acht klar
-  getrennte Phasen, Multi-Tool-Workflow mit NotebookLM und Gemini, durchgängiger
+  getrennte Phasen, lokale Quellenauswertung mit geprüften Seitenzahlen, durchgängiger
   wissenschaftlicher Stil mit aktivem Anti-KI-Muster-Check. Nutze diesen Skill bei
   jeder Anfrage rund um eine wissenschaftliche Studien- oder Abschlussarbeit:
   "Hausarbeit schreiben", "Bachelorarbeit planen", "Masterarbeit starten",

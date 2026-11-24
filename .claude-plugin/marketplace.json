@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Studienarbeiten-Pipeline von Chris Eichler (@e3xler) — acht spezialisierte Skills für wissenschaftliche Arbeiten (Hausarbeit bis Masterarbeit).",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "plugins": [
     {
@@ -31,8 +31,8 @@
         "wissenschaftliches-schreiben",
         "harvard-apa",
         "notebooklm",
-        "gemini",
-        "obsidian"
+        "obsidian",
+        "anydoc"
       ]
     }
   ]

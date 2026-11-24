@@ -38,3 +38,11 @@ node_modules/
 *.fbx
 *.safetensors
 .mcp.json
+
+# Phase 3: Volltexte und Ableitungen (urheberrechtlich geschützt, nie ins Repo)
+02-quellen/dateien/*
+!02-quellen/dateien/.gitkeep
+02-quellen/markdown/
+02-quellen/fundstellen/
+__pycache__/
+.pytest_cache/

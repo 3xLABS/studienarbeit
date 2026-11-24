@@ -59,17 +59,18 @@ Systematische Quellensuche, kapitelweise. Claude entwickelt die Recherchestrateg
 **Tools:** Claude (Strategie + Dokumentation), User bedient NotebookLM selbstständig im Browser
 
 ### Phase 3 — Quellenauswertung (`studienarbeit-quellenauswertung`)
-Die Quellenauswertung läuft **in Gemini**, nicht in Claude — das spart Token. Claude liefert die Anleitung (Gem-Setup, kapitelspezifische Prompts) und übernimmt die Nachbearbeitung des Gemini-Outputs ins Writer-Format. Der User öffnet **selbstständig** Google AI Studio / NotebookLM im Browser und führt die Prompts dort aus. **Produziert keinen Fließtext** — das ist Phase 4.
+Die Literatur-Auswertung läuft **lokal**: Der User legt die Volltexte in `02-quellen/dateien/`, ein Skript wandelt sie mit anydoc seitengenau in Markdown um, Claude sucht pro Quelle die wichtigsten Stellen zu Forschungsfrage, Unterfragen und Hypothesen, ein zweites Skript prüft jedes Zitat wörtlich samt Seite. Claude liest nur Trefferseiten, nie ganze Quellen. Braucht den Code-Tab der Claude Desktop-App. **Produziert keinen Fließtext**, das ist Phase 4.
 
 **Zwei parallele Stränge:**
 - **Literatur-Strang** — Auswertung von Papers, Büchern, Artikeln, Reports (Standard für alle Arbeitstypen)
 - **Empirik-Strang** — Auswertung eigener Interviews, Fokusgruppen, Fragebogen-Daten, Beobachtungsprotokolle (nur wenn Empirie geplant; siehe Meta-Block)
 
-Der Empirik-Strang nutzt einen separaten Gem-Systemprompt, der für Transkript-Kodierung (qualitative Inhaltsanalyse nach Mayring/Kuckartz) bzw. Fragebogen-Auswertung (deskriptive und inferenzstatistische Analyse) optimiert ist. Methodische Referenz: `_foundation/empirische-methoden.md`.
+Der Empirik-Strang läuft weiter in Gemini mit einem separaten Gem-Systemprompt, der für Transkript-Kodierung (qualitative Inhaltsanalyse nach Mayring/Kuckartz) bzw. Fragebogen-Auswertung (deskriptive und inferenzstatistische Analyse) optimiert ist. Methodische Referenz: `_foundation/empirische-methoden.md`.
 
-**Input:** Recherche-Protokoll + indexiertes NotebookLM-Notebook (Literatur), ggf. Transkripte / Rohdaten (Empirik)
+**Input:** Recherche-Protokoll + Volltexte in `02-quellen/dateien/` (Literatur), ggf. Transkripte / Rohdaten (Empirik)
 **Output:** `02-quellen/Auswertung_Kapitel_[X]_*.md` (Literatur), `02-quellen/Empirik_Auswertung_Kapitel_[X]_*.md` (Empirik) — beide im Format, das der Writer erwartet
-**Tools:** Claude (Anleitung + Nachbearbeitung), User bedient Gemini / Google AI Studio selbstständig im Browser
+**Zwischenergebnisse:** `02-quellen/markdown/` (umgewandelte Quellen + `_index.md`), `02-quellen/fundstellen/Fundstellen_*.md` (geprüfte Stellen pro Quelle)
+**Tools:** Claude + Skripte `quellen_umwandeln.py` / `fundstellen_pruefen.py` (via `uv`); Empirik: User bedient Gemini im Browser
 
 ### Phase 4 — Schreiben (`studienarbeit-writer`)
 Schreibt **ein Kapitel pro Lauf** im wissenschaftlichen Stil mit dem im Meta-Block gewählten **Zitierstil** (Harvard / APA / Deutsche Zitierweise / Chicago / MLA) und Obsidian-Wiki-Links. Beachtet Kapiteltyp (Einleitung/Theorie/Methodik/Ergebnisse/Diskussion/Fazit) und Nachbarkapitel. Tiefe und Umfang nach Arbeitstyp aus Meta-Block (Hausarbeit knapper, MA tiefer). **Gate:** Startet nur, wenn die Quellenauswertung vorliegt.
@@ -225,6 +226,9 @@ Im Ordner `.claude/skills/_foundation/` liegen die Single Sources of Truth, die 
 ├── 02-quellen/
 │   ├── Forschungsfrage.md         ← Aus Phase 1
 │   ├── Recherche_Kapitel_*.md     ← Aus Phase 2
+│   ├── dateien/                   ← Volltexte der Quellen (vom User abgelegt)
+│   ├── markdown/                  ← Aus Phase 3: umgewandelte Quellen mit Seitenmarken
+│   ├── fundstellen/               ← Aus Phase 3: geprüfte Stellen pro Quelle
 │   ├── Auswertung_Kapitel_*.md    ← Aus Phase 3 (Literatur-Strang)
 │   ├── Empirik_Auswertung_Kapitel_*.md  ← Aus Phase 3 (Empirik-Strang, optional)
 │   └── Literaturverzeichnis_final.md    ← Aus Phase 7

@@ -33,7 +33,7 @@ Bevor du irgendetwas schreibst, prüfe ob eine Quellenauswertung für das angefo
 **So prüfst du:**
 
 1. Schau in den Ordner `02-quellen/` im Projektverzeichnis
-2. Suche nach einer Datei, die zur Kapitelanfrage passt. Das Namensschema ist: `BA_Quellenauswertung_Kapitel X_[Beschreibung].md` (z.B. `BA_Quellenauswertung_Kapitel 2_Theoretische Grundlagen.md`)
+2. Suche nach einer Datei, die zur Kapitelanfrage passt. Das Namensschema ist: `Auswertung_Kapitel_[X]_[Kurztitel].md` (ältere Projekte: `BA_Quellenauswertung_Kapitel X_[Beschreibung].md`). Die geprüften Einzelbelege dazu liegen in `02-quellen/fundstellen/Fundstellen_*.md`.
 3. Prüfe auch Varianten: die Datei könnte anders benannt sein, aber im `02-quellen/`-Ordner liegen und inhaltlich die Quellen für das angeforderte Kapitel enthalten
 
 **Wenn eine Quellenauswertung gefunden wird:**
@@ -43,8 +43,8 @@ Bevor du irgendetwas schreibst, prüfe ob eine Quellenauswertung für das angefo
 **Wenn KEINE Quellenauswertung gefunden wird — STOPP:**
 - Schreibe das Kapitel NICHT. Auch nicht "provisorisch" oder "als Entwurf"
 - Erkläre dem User klar, dass für dieses Kapitel noch keine Quellenauswertung vorliegt
-- Delegiere zurück an **Phase 3: `studienarbeit-quellenauswertung`** — dieser Skill wertet die in Phase 2 gesammelten Quellen mit NotebookLM systematisch aus und erstellt das Auswertungsdokument in dem vom Writer erwarteten Format
-- Falls auch noch keine Quellen in NotebookLM liegen: zurück an **Phase 2: `studienarbeit-recherche`**
+- Delegiere zurück an **Phase 3: `studienarbeit-quellenauswertung`**: Dieser Skill wertet die Quellen aus `02-quellen/dateien/` lokal aus, prüft jedes Zitat am Quelltext und erstellt das Auswertungsdokument in dem vom Writer erwarteten Format
+- Falls noch gar keine Quellen gesammelt sind: zurück an **Phase 2: `studienarbeit-recherche`**
 
 Der Grund für dieses Gate: Jede Quellenangabe in der Arbeit muss verifizierbar sein — mit korrektem Autor, Jahr und Seitenzahl. Ohne Quellenauswertung müsste man Seitenzahlen schätzen oder Quellen erfinden, was die gesamte Arbeit wissenschaftlich entwertet.
 
@@ -111,7 +111,7 @@ Verwende den Harvard-Zitierstil konsequent. Zusätzlich zu den klassischen In-Te
 - Mehrere Quellen: (Müller, 2023, S. 12; Schmidt, 2021, S. 34)
 - Autor im Satzfluss: Müller (2023, S. 45) argumentiert, dass...
 
-**Seitenangaben:** Gib immer Seitenzahlen an, wenn du dich auf eine konkrete Stelle beziehst. Bei ganzen Werken oder übergreifenden Argumenten kann die Seitenangabe entfallen. Übernimm immer die **gedruckte** Seitenzahl aus der Quellenauswertung, nie die PDF-Seite. Steht in der Auswertung ein `[SEITE PRÜFEN …]`, übernimmst du den Marker in den Text. Eine vermutete Seite („vermutlich S. 320") ist noch kein Beleg und wird nicht still eingesetzt.
+**Seitenangaben:** Gib immer Seitenzahlen an, wenn du dich auf eine konkrete Stelle beziehst. Bei ganzen Werken oder übergreifenden Argumenten kann die Seitenangabe entfallen. Übernimm immer die **gedruckte** Seitenzahl aus der Quellenauswertung, nie die PDF-Seite. Steht in der Auswertung ein `[SEITE PRÜFEN …]`, übernimmst du den Marker in den Text. Direkte Zitate übernimmst du nur aus Fundstellen mit `✅ belegt` oder `⚠️ korrigiert`, Zeichen für Zeichen. Stellen mit `[ZITAT PRÜFEN]` verwendest du nicht und löst den Marker nie still auf. Eine vermutete Seite („vermutlich S. 320") ist noch kein Beleg und wird nicht still eingesetzt.
 
 **Obsidian-Verlinkung der Quellen:**
 

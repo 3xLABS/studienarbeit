@@ -104,9 +104,11 @@ Dies ist der **wichtigste Schritt der gesamten Planung** — die Forschungsfrage
 **Struktur:**
 - Eine Hauptforschungsfrage (die zentrale Frage der Arbeit)
 - 2–3 Unterforschungsfragen (optional, strukturieren die Hauptfrage)
+- Hypothesen oder leitende Annahmen (optional, bei empirischen Arbeiten empfohlen): 2–4 prüfbare Aussagen, nummeriert als H1, H2, … Die Quellenauswertung (Phase 3) sucht gezielt nach Belegen und Gegenbelegen dafür.
 
 **Speichern als `02-quellen/Forschungsfrage.md`** mit:
 - Die Forschungsfrage(n)
+- Abschnitt `## Hypothesen` (falls vorhanden), je Zeile `H1: …`
 - Kurze Herleitung (warum diese Frage relevant ist — wissenschaftlich + praktisch)
 - Abgrenzung (was die Arbeit NICHT untersucht)
 - Erwartete methodische Herangehensweise (qualitativ/quantitativ/konzeptionell)

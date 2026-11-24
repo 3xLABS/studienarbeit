@@ -9,12 +9,13 @@ Die Pipeline verteilt die Arbeit auf mehrere Tools, die jeweils das tun, was sie
 | Tool | Rolle | Wann |
 |---|---|---|
 | **Perplexity** | Quellenrecherche | Quellen finden (Echtzeit-Websuche mit Quellenangaben) |
-| **NotebookLM** | Quellenspeicher | Quellen laden, durchsuchbar machen, mit Gemini verbinden |
-| **Gemini** (via NotebookLM) | Quellenauswertung | Quellen analysieren, Argumente extrahieren, Argumentationsketten bauen |
+| **NotebookLM** | Recherche | Quellen finden und sichten |
+| **anydoc** (lokal) | Quellenumwandlung | PDFs, Word, PowerPoint, EPUB seitengenau in durchsuchbares Markdown umwandeln |
+| **Gemini** | Empirik-Auswertung | Nur bei eigener Erhebung: Interviews, Fragebögen kodieren |
 | **Claude** | Strukturarbeit + Schreiben | Planung steuern, Prompts generieren, Kapitel schreiben, reviewen, überarbeiten |
 | **Obsidian** | Übersicht | Ordnerstruktur, Fortschritt, alle Dateien an einem Ort |
 
-**Grundregel:** Perplexity sucht, NotebookLM + Gemini werten aus, Claude schreibt, Obsidian hält alles zusammen.
+**Grundregel:** Perplexity und NotebookLM suchen, Claude wertet lokal aus und schreibt, ein Skript prüft jedes Zitat am Quelltext, Obsidian hält alles zusammen.
 
 ## Die acht Skills
 
@@ -28,7 +29,7 @@ Der Einstiegspunkt. Bringt dich vom groben Thema zur schreibfertigen Ausgangslag
 Systematische Quellensuche, kapitelweise. Claude liefert Strategie und Suchbegriffe, der User arbeitet selbstständig in NotebookLM im Browser.
 
 ### 3. studienarbeit-quellenauswertung
-Leitet die Quellenauswertung mit Gemini (via Gem + NotebookLM) an. Claude liefert die Gem-Systemprompt, kapitelspezifische Prompts und übernimmt die Nachbearbeitung ins Writer-Format — die eigentliche Analyse läuft in Gemini, um Token zu sparen.
+Wertet deine Quellen lokal aus. Du legst die Volltexte in `02-quellen/dateien/`, Claude wandelt sie mit anydoc seitengenau um, sucht pro Quelle die wichtigsten Stellen zu Forschungsfrage, Unterfragen und Hypothesen und liefert sie mit gedruckter Seitenzahl. Ein Skript prüft jedes Zitat wörtlich am Quelltext, falsche Seiten werden mit Beleg korrigiert.
 
 ### 4. studienarbeit-writer
 Schreibt einzelne Kapitel auf Basis von Forschungsfrage, Gliederung und Quellenauswertung. Produziert wissenschaftlichen Fließtext im Harvard-Zitierstil mit Claim-Reason-Evidence-Argumentation. Berücksichtigt Nachbarkapitel und kapiteltyp-spezifische Anforderungen.
@@ -48,7 +49,7 @@ Prüft die gesamte Arbeit als Einheit (roter Faden, Begriffe, Zitierung, Überg�
 Phase 0: ONBOARDING  → System-Check, Voraussetzungen prüfen
 Phase 1: PLANUNG     → Thema → Forschungsfrage → Gliederung → Zeitplan
 Phase 2: RECHERCHE   → Quellen suchen (NotebookLM + Perplexity)
-Phase 3: AUSWERTUNG  → Quellen analysieren in Gemini (Claude liefert Prompts + formatiert)
+Phase 3: AUSWERTUNG  → Quellen lokal umwandeln, Fundstellen finden, Zitate prüfen
 Phase 4-6: SCHREIBEN (pro Kapitel wiederholen)
    Writer → Reviewer → Überarbeitung
                           ↓
@@ -58,7 +59,8 @@ Phase 7: FINALISIERUNG → Gesamtcheck → Literaturverzeichnis → Word-Datei
 
 ## Voraussetzungen
 
-- **Claude** (Desktop-App mit Cowork-Mode oder Claude Code)
+- **Claude Desktop-App**, Code-Tab (die Quellenauswertung führt lokale Skripte aus; der Chat-Tab reicht dafür nicht)
+- **uv** (installiert das Onboarding automatisch, holt sich das passende Python selbst)
 - **Perplexity** (für Quellenrecherche — kostenlose Version reicht)
 - **Google NotebookLM** (kostenlos unter notebooklm.google.com)
 - **Obsidian** (kostenlos unter obsidian.md — optional, aber empfohlen)
@@ -181,8 +183,8 @@ studienarbeit/                   ← Obsidian Vault Root + Git-Repo
 2. **Forschungsfrage entwickeln** — Claude führt dich durch die Themenfindung und hilft bei der Eingrenzung
 3. **Gliederung erstellen** — Claude erstellt eine Gliederung mit Seitenvorgaben pro Kapitel
 4. **Quellen recherchieren** — Claude generiert Perplexity-Prompts (siehe `Prompts.md`, Codes P-1 bis P-5). Kopiere die Prompts in Perplexity und sammle 40–80 Quellen
-5. **Quellen in NotebookLM laden** — Erstelle ein Notebook pro Kapitelgruppe und lade die gefundenen PDFs/URLs hoch
-6. **Quellen auswerten** — Sage Claude „Quellen auswerten für Kapitel X". Claude leitet dich durch das Gem-Setup und generiert fertige Prompts für Gemini. Du wertest in Gemini aus, Claude formatiert das Ergebnis danach ins Writer-Format.
+5. **Volltexte ablegen:** Lege die PDFs (oder Word, PowerPoint, EPUB) in `02-quellen/dateien/`, am besten als `Nachname Jahr Stichwort.pdf`. Webseiten im Browser per „Drucken → Als PDF speichern".
+6. **Quellen auswerten:** Sage Claude „Quellen auswerten für Kapitel X". Claude wandelt die Dateien um, zeigt dir die wichtigsten Stellen pro Quelle mit Seitenzahl und prüft jedes Zitat am Quelltext.
 
 ### Phase 1: Kapitel schreiben
 
@@ -273,6 +275,8 @@ Drei Mechaniken stammen aus [PaperOrchestra](https://github.com/google-research/
 **v1.2.1 (nach Testlauf):** Untertitel-Vergleich, Erstautor-Pflicht und AIS-Konferenzbände im Quellen-Check, Status `abweichend` für falsch zugeordnete Quellen, Rausch-Schwelle von 0,5 Punkten im Score-Gate (zwei Reviews desselben Texts lagen 0,4 Punkte auseinander).
 
 **v1.3.0 (Seitenzahlen, nach Nutzer-Feedback):** Der Gem nennt jetzt gedruckte Seite, PDF-Seite und einen wörtlichen Anker. Die Recherche speichert den Seitenbereich aus Crossref. Quellenauswertung und Finalisierung prüfen jede Seitenangabe gegen diesen Bereich und erkennen den typischen PDF-Versatz (PDF-Seite 2 statt gedruckter S. 320). Unsichere Seiten bleiben als `[SEITE PRÜFEN]` markiert, mit fertigem Nachfrage-Prompt für NotebookLM.
+
+**v1.4.0 (lokale Quellenauswertung, nach Nutzer-Feedback):** Phase 3 läuft nicht mehr über Gemini, sondern lokal. [anydoc](https://github.com/firecrawl/anydoc) (Firecrawl, MIT) wandelt die Quellen Seite für Seite in Markdown um, die gedruckte Seitenzahl kommt aus Kopf- oder Fußzeile oder dem Crossref-Seitenbereich. Claude liefert pro Quelle die wichtigsten Stellen zu Forschungsfrage, Unterfragen und neu auch Hypothesen. Ein Prüfskript sucht jedes Zitat wörtlich im Quelltext: Seiten werden nur mit Beleg gesetzt, nicht gefundene Zitate als `[ZITAT PRÜFEN]` markiert. Damit entfällt das manuelle Nachfragen in NotebookLM aus v1.3.0. Gescannte PDFs werden gemeldet und nur nach Zustimmung per OCR gelesen.
 
 ## Lizenz
 

@@ -1,286 +1,177 @@
 ---
 name: studienarbeit-quellenauswertung
 description: >
-  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): leitet den
-  User durch die Quellenauswertung mit Gemini und NotebookLM. Die in Phase 2
-  gesammelten Quellen liegen bereits in einem NotebookLM-Notebook; der User öffnet
-  Gemini im Browser, verknüpft das Notebook und wertet die Quellen mit
-  vorbereiteten Prompts aus. Claude liefert Gem-Systemprompt und
-  kapitelspezifische Prompts und bringt den Gemini-Output ins Writer-Format. Bei
-  empirischer Komponente zusätzlich ein Empirik-Strang für Interviews, Fragebögen
-  und Beobachtungen. Spart Token, weil die Analyse bei Gemini läuft. Nutze bei:
-  "Quellen auswerten", "Literatur analysieren", "Quellenauswertung", "Quellen
-  zusammenfassen", "Kernaussagen extrahieren", "Interviews auswerten", "Fragebogen
-  analysieren", "Gem erstellen", "Gemini Auswertung". Nicht für die Quellensuche —
-  dafuer gibt es studienarbeit-recherche.
+  Phase 3 der Studienarbeit-Pipeline (Hausarbeit bis Masterarbeit): wertet die
+  Quellen lokal aus. Der User legt seine Quellen (PDF, Word, PowerPoint, EPUB) in
+  02-quellen/dateien/, Claude wandelt sie mit anydoc seitengenau in Markdown um,
+  durchsucht sie nach Forschungsfrage, Unterfragen und Hypothesen und liefert pro
+  Quelle die wichtigsten Stellen mit gedruckter Seitenzahl. Jedes Zitat wird per
+  Skript wörtlich am Quelltext geprüft, Seiten werden nur mit Beleg gesetzt.
+  Daraus entsteht die Kapitel-Auswertung im Writer-Format. Bei empirischer
+  Komponente zusätzlich ein Empirik-Strang für Interviews, Fragebögen und
+  Beobachtungen. Braucht den Code-Tab der Claude Desktop-App. Nutze bei: "Quellen
+  auswerten", "Literatur analysieren", "Quellenauswertung", "Fundstellen",
+  "Kernaussagen extrahieren", "Seitenzahlen prüfen", "Interviews auswerten",
+  "Fragebogen analysieren". Nicht für die Quellensuche, dafür gibt es
+  studienarbeit-recherche.
 ---
 
-# Studienarbeit — Phase 3: Quellenauswertung (via Gemini)
+# Studienarbeit: Phase 3, Quellenauswertung (lokal)
 
-Die Quellenauswertung läuft **nicht in Claude**, sondern in **Gemini** — der User bedient Gemini und NotebookLM selbstständig im Browser. Das spart Token und nutzt Geminis Stärke: über die NotebookLM-Verknüpfung hat Gemini direkten Zugriff auf alle indexierten Quellen.
+Die Quellenauswertung läuft **lokal auf dem Rechner des Users**. Claude liest die Quellen selbst, aber nie ganz: Ein Skript wandelt sie in durchsuchbares Markdown mit Seitenmarken um, Claude sucht gezielt und liest nur die Trefferseiten. Ein zweites Skript prüft jedes Zitat wörtlich am Quelltext. So stimmen Seitenzahlen und Wortlaut, ohne dass der User von Hand nachbessern muss.
 
 **Claudes Rolle in Phase 3:**
-1. **Vorbereitung:** Gem-Systemprompt bereitstellen, kapitelspezifische Prompts generieren
-2. **Nachbearbeitung:** Gemini-Output ins exakte Format bringen, das der Writer-Skill (Phase 4) erwartet
+1. Quellen umwandeln und den Bestand melden
+2. Pro Quelle die wichtigsten Stellen zu Forschungsfrage, Unterfragen und Hypothesen finden
+3. Jede Stelle prüfen lassen und nur belegte Stellen weitergeben
+4. Daraus die Kapitel-Auswertung im Writer-Format bauen
 
-**Claudes Rolle ist NICHT:** Die Quellen selbst zu lesen oder auszuwerten. Das macht Gemini.
+**Grundregeln:**
+- Keine Seitenzahl ohne Beleg aus dem Quelltext. Unbelegt heißt `[SEITE PRÜFEN]`.
+- Kein Zitat, das das Prüfskript nicht gefunden hat. Nicht gefunden heißt `[ZITAT PRÜFEN]` oder streichen.
+- Nie eine ganze Quelle in den Kontext laden. Erst suchen, dann nur Trefferseiten lesen.
+- Literaturquellen verlassen den Rechner nicht. Einzige Ausnahme: OCR für gescannte PDFs, nur nach ausdrücklichem Ja des Users pro Datei. (Der Empirik-Strang unten arbeitet bewusst mit Gemini.)
 
 ## Übersicht: Workflow
 
 ```
-Claude                          User (im Browser)                Gemini
-──────                          ─────────────────                ──────
-1. Gem-Systemprompt +           User erstellt Gem in Gemini
-   Schritt-für-Schritt      →  User verknüpft NotebookLM     
-   Anleitung                    Notebook mit Gemini
-
-2. Kapitel-Prompts           →  User gibt Prompts ein         → Gemini analysiert Quellen
-                                                                 anhand des Notebooks
-                                User kopiert Markdown-Output  →   
-3. Nachbearbeitung           ←  User gibt Output an Claude
-4. Fertige Auswertung        →  Datei in 02-quellen/
+02-quellen/dateien/            ← User legt Quellen ab (PDF, Word, PPT, EPUB)
+        │  Schritt 2: quellen_umwandeln.py
+        ▼
+02-quellen/markdown/<kurzname>.md  + _index.md
+        │  Schritt 3–4: Suchplan, Stichwortsuche, Trefferseiten lesen
+        ▼
+02-quellen/fundstellen/Fundstellen_<kurzname>.md
+        │  Schritt 5: fundstellen_pruefen.py
+        ▼
+02-quellen/Auswertung_Kapitel_<X>_<Kurztitel>.md   ← für den Writer (Phase 4)
 ```
+
+Im Folgenden steht `<SKILL>` für den Ordner, der den Unterordner `scripts/` mit `quellen_umwandeln.py` enthält. Im Plugin ist das der Ordner dieses Skills (`studienarbeit-quellenauswertung/`), im Master-Skill der Ordner `studienarbeit/` mit der Haupt-SKILL.md, nicht `references/`. Im Zweifel: `find ~ -name quellen_umwandeln.py -path "*studienarbeit*" 2>/dev/null | head -1`.
 
 ## Ablauf
 
 ### Schritt 1: Voraussetzungen prüfen
 
-Bevor du startest, lies:
-- `01-docs/Gliederung.md` — Welches Kapitel wird ausgewertet?
-- `02-quellen/Forschungsfrage.md` oder `02-quellen/BA_Forschungsfrage.md` — Worauf arbeitet alles hin?
-- `02-quellen/Recherche_Kapitel_[X]_*.md` — Welche Quellen liegen vor? (aus Phase 2)
+1. **Shell vorhanden?** Prüfe mit `uv --version`, ob du Befehle ausführen kannst und `uv` installiert ist.
+   - Keine Shell (z. B. Chat-Tab): Stopp. Sage dem User: „Die Quellenauswertung läuft im **Code-Tab der Claude Desktop-App**. Öffne dort deinen Arbeitsordner und sag mir dann noch mal Bescheid."
+   - Shell da, aber kein `uv`: zurück zum Onboarding (`studienarbeit-onboarding`), dort wird `uv` installiert.
+2. Lies:
+   - `01-docs/Gliederung.md`: Welches Kapitel wird ausgewertet, welche Belegpflicht-Punkte hat es?
+   - `02-quellen/Forschungsfrage.md` (oder `BA_Forschungsfrage.md`): Hauptfrage, Unterfragen, Hypothesen
+   - `02-quellen/Recherche_Kapitel_[X]_*.md`: Welche Quellen gehören zum Kapitel, mit Seitenbereich?
+3. Liegen Dateien in `02-quellen/dateien/`? Falls nicht:
+   > Lege bitte die Volltexte deiner Quellen in den Ordner `02-quellen/dateien/`. Benenne sie nach dem Muster `Nachname Jahr Stichwort.pdf`, z. B. `Mueller 2021 Risikomanagement.pdf`, genau mit Nachname und Jahr wie im Recherche-Protokoll (auch `2021a`, falls dort so). Webseiten speicherst du im Browser über **Drucken → Als PDF speichern**.
 
-Falls die Recherche für das Kapitel noch nicht abgeschlossen ist → zurück zu Phase 2 (`studienarbeit-recherche`).
+### Schritt 2: Quellen umwandeln
 
-### Schritt 2: NotebookLM + Gemini verknüpfen (einmalig)
-
-Das ist der zentrale Schritt — hier verbindet der User seine gesammelten Quellen mit Gemini. Es gibt zwei Wege, und Claude erklärt dem User beide:
-
-#### Weg A: Gem in Gemini erstellen und Notebook verknüpfen (empfohlen)
-
-Gib dem User diese Anleitung:
-
-> **NotebookLM-Quellen mit Gemini verbinden — Schritt für Schritt:**
->
-> **Teil 1: Gem erstellen**
-> 1. Öffne [gemini.google.com](https://gemini.google.com) in deinem Browser
-> 2. Melde dich mit dem **gleichen Google-Konto** an, das du für NotebookLM benutzt
-> 3. Klicke links in der Seitenleiste auf **„Gem Manager"** oder **„Gems"**
-> 4. Klicke **„Neuen Gem erstellen"** / **„New Gem"**
-> 5. **Name:** `BA Quellenauswertung`
-> 6. **Anweisungen / Instructions:** Kopiere den Systemprompt, den ich dir gleich gebe, komplett in dieses Feld
-> 7. Klicke **„Speichern"** / **„Save"**
->
-> **Teil 2: NotebookLM-Notebook verknüpfen**
-> 1. Öffne deinen neuen Gem (klicke auf „BA Quellenauswertung" in der Gem-Liste)
-> 2. Unten links im Chat-Eingabefeld siehst du einen **+**-Button
-> 3. Klicke darauf und wähle **„NotebookLM"** als Quelle
-> 4. Wähle dein BA-Notebook aus der Liste
-> 5. Jetzt hat Gemini Zugriff auf alle Quellen in deinem Notebook
->
-> **Fertig!** Du kannst jetzt im Gem-Chat Fragen zu deinen Quellen stellen, und Gemini antwortet basierend auf den Dokumenten im Notebook.
->
-> Bestätige mir, wenn der Gem erstellt und das Notebook verknüpft ist.
-
-Gib dem User dann den Inhalt der Datei `references/gem-systemprompt.md` als Copy-Paste-Block für das Anweisungen-Feld. Lies dazu:
-
-```
-.claude/skills/studienarbeit-quellenauswertung/references/gem-systemprompt.md
+```bash
+uv run --with firecrawl-anydoc --with pypdf "<SKILL>/scripts/quellen_umwandeln.py" 02-quellen
 ```
 
-#### Weg B: Direkt in NotebookLM chatten (einfacher, aber weniger steuerbar)
-
-Falls der User den Gem-Weg zu kompliziert findet:
-
-> **Alternative: Direkt in NotebookLM auswerten**
->
-> 1. Öffne [notebooklm.google.com](https://notebooklm.google.com)
-> 2. Öffne dein BA-Notebook
-> 3. Wähle links die Quellen aus, die zu diesem Kapitel gehören (Häkchen setzen)
-> 4. Nutze den **Chat** unten, um die Prompts einzugeben, die ich dir gleich gebe
->
-> Nachteil: Ohne den Gem-Systemprompt gibt Gemini die Antworten nicht im exakten Auswertungsformat aus. Du musst dann ggf. nachfragen oder Claude macht mehr Nachbearbeitung.
-
-**Empfehlung:** Weg A (Gem), weil der Systemprompt dafür sorgt, dass Gemini die Quellen gleich im richtigen Format auswertet — mit Seitenangaben, Harvard-Zitierung und strukturierten Argumentationsketten.
-
-**Wichtig:** Der Gem und die Notebook-Verknüpfung müssen nur **einmal** eingerichtet werden. Bei weiteren Kapiteln öffnet der User einfach denselben Gem.
-
-### Schritt 3: Kapitelspezifische Prompts generieren
-
-Für jedes Kapitel generierst du **konkrete, fertige Prompts** — keine Platzhalter, sondern mit den tatsächlichen Werten aus Forschungsfrage und Gliederung vorausgefüllt.
-
-Generiere diese Prompts und gib sie dem User als nummerierte Copy-Paste-Blöcke:
-
-#### Prompt A — Kapitelauswertung (Hauptprompt)
-
-Fülle die Platzhalter mit den konkreten Werten des Users:
+Das Skript wandelt jede Datei in `02-quellen/markdown/<kurzname>.md` um. PDFs werden Seite für Seite umgewandelt; vor jeder Seite steht eine Marke:
 
 ```
-Erstelle eine vollständige Quellenauswertung für Kapitel [X]: "[Kapiteltitel]" meiner Bachelorarbeit.
-
-Die Forschungsfrage lautet: "[Forschungsfrage]"
-
-Dieses Kapitel soll folgende Unterkapitel abdecken:
-[Unterkapitel aus Gliederung auflisten]
-
-Gehe alle relevanten Quellen im Notebook durch und werte sie kapitelspezifisch aus. Gib die Antwort als vollständiges Markdown-Dokument aus. Achte besonders auf:
-- Kernaussagen mit Seitenangaben
-- Verwendbare direkte Zitate
-- Argumentationsketten
-- Vergleichende Analyse (Gemeinsamkeiten, Widersprüche)
-- Konkrete Empfehlung für den Kapitelaufbau
+<!-- seite pdf=7 gedruckt=325 -->
 ```
 
-#### Prompt B — Definitionen (für Theoriekapitel)
+`pdf` ist die Seite im PDF-Viewer, `gedruckt` die Seitenzahl, die auf der Seite steht und zitiert wird. Das Skript erkennt sie aus Kopf- und Fußzeilen oder rechnet sie aus dem Seitenbereich im Recherche-Protokoll um. Jede Seite wird einzeln gegengeprüft. Kann es die Zahl für eine Seite nicht belegen (Vorspann, eingeschobene Bildseite, widersprüchliche Zählung), steht dort `gedruckt=?`.
 
-```
-Durchsuche alle Quellen nach Definitionen für folgende Begriffe, die in Kapitel [X] zentral sind:
+Bereits umgewandelte, unveränderte Dateien werden übersprungen. Den Befehl kannst du also jederzeit wieder laufen lassen.
 
-1. [Begriff 1]
-2. [Begriff 2]
-3. [Begriff 3]
+Lies danach `02-quellen/markdown/_index.md` und fasse für den User zusammen:
+- Wie viele Quellen umgewandelt wurden
+- **Versatz `unbekannt`:** Hier kann keine Seitenzahl belegt werden. Zitate aus dieser Quelle bekommen `[SEITE PRÜFEN]`. Tipp an den User: den Seitenbereich der Quelle im Recherche-Protokoll ergänzen (Spalte „Seiten"), dann Schritt 2 wiederholen.
+- **Versatz `konflikt`:** Der Seitenbereich im Recherche-Protokoll widerspricht den Seitenzahlen in den Kopf- oder Fußzeilen (oft ein Zahlendreher im Protokoll). Alle Seiten bekommen `?`. Bitte den User, den Bereich im Protokoll mit dem PDF abzugleichen und zu korrigieren, dann Schritt 2 wiederholen.
+- **Status `braucht-ocr`:** Gescanntes PDF ohne Text. Frage pro Datei:
+  > `[Datei]` ist ein Scan ohne Text. Ich kann ihn über den Texterkennungs-Dienst von Firecrawl lesen lassen. Dafür geht **das ganze Dokument** an Firecrawl. Soll ich das machen? Alternativ suchst du eine Textfassung des PDFs.
 
-Für jeden Begriff: Alle Definitionen mit Autor, Jahr, Seite. Gemeinsamkeiten, Unterschiede, und eine Empfehlung für die Arbeitsdefinition. Formatiere die Antwort als Markdown.
-```
+  Nur bei einem klaren Ja: `uv run --with firecrawl-anydoc --with pypdf "<SKILL>/scripts/quellen_umwandeln.py" 02-quellen --ocr "<Dateiname>"`. OCR-Ergebnisse haben keine Seitenmarken, Zitate daraus bekommen `[SEITE PRÜFEN]`.
+- **Abschnitt „Ohne Datei" (`fehlt`):** Quellen aus dem Recherche-Protokoll, zu denen keine Datei gefunden wurde. Bitte den User, sie abzulegen. Ohne Datei werden sie in dieser Phase nicht ausgewertet.
 
-#### Prompt C — Argumentationsketten
+### Schritt 3: Suchplan erstellen
 
-```
-Baue eine wissenschaftliche Argumentationskette für Kapitel [X]: "[Kapiteltitel]".
+Leite aus Forschungsfrage, Unterfragen, Hypothesen und den Belegpflicht-Punkten des Kapitels einen Suchplan ab:
 
-Die zentrale These dieses Kapitels: "[These — aus Gliederung/Forschungsfrage ableiten]"
+- 8 bis 15 Suchbegriffe, jeweils auf Deutsch und Englisch (die meisten Fachquellen sind englisch), inklusive Synonymen und Wortstämmen (`risik`, `risk`)
+- Zu jedem Begriff: welche Frage oder Hypothese er bedient
+- Zeige den Suchplan dem User kurz als Tabelle. Er kann ergänzen, muss aber nicht.
 
-Für jedes Argument: Claim → Reason → Evidence (mit konkreten Quellen und Seitenangaben). Zeige auch Gegenargumente und eine Synthese. Formatiere als Markdown.
-```
+### Schritt 4: Fundstellen pro Quelle auswählen
 
-#### Prompt D — Methodik-Auswertung (nur für Methodenkapitel)
+Für jede Quelle des Kapitels:
 
-```
-Werte die methodenbezogenen Quellen für mein Methodenkapitel aus.
+1. **Seitenmarken holen:** `grep -n "^<!-- seite" 02-quellen/markdown/<kurzname>.md` liefert die Zeilennummer jeder Seite.
+2. **Suchen, ohne Text zu laden:** `grep -n -i -o -E "begriff1|begriff2|…" 02-quellen/markdown/<kurzname>.md | head -80` zeigt nur Zeilennummer und Treffer-Wort, nicht die ganzen Absätze. Ordne jede Zeilennummer der Seitenmarke darüber zu und zähle Treffer pro Seite.
+3. **Lesen:** Nur die Seiten mit den meisten Treffern lesen, jeweils von ihrer Seitenmarke bis zur nächsten (Read mit `offset`/`limit`), höchstens 6 Seiten pro Quelle. Nie die ganze Datei.
+4. **Auswählen:** 3 bis 8 Stellen pro Quelle, die eine Frage, Unterfrage, Hypothese oder einen Belegpflicht-Punkt am stärksten stützen oder ihm widersprechen. Gegenpositionen gehören dazu.
+5. **Schreiben** nach `02-quellen/fundstellen/Fundstellen_<kurzname>.md` in genau diesem Format:
 
-Geplante Methode: [Methode aus Gliederung]
+```markdown
+# Fundstellen: <Autor> (<Jahr>), <Kurztitel>
 
-Liefere als Markdown-Dokument:
-1. Methodenbeschreibung (mit Seitenangaben)
-2. Begründung für den Einsatz bei meiner Forschungsfrage
-3. Ablauf/Schritte laut Quellen
-4. Gütekriterien
-5. Limitationen
-6. Alternative Methoden und warum meine Wahl besser ist
-```
+**Datei:** [[<kurzname>]]
+**Kapitel:** <X>
 
-#### Prompt E — Widersprüche und Forschungslücken
-
-```
-Analysiere die Quellen zu Kapitel [X] auf:
-
-1. Wo widersprechen sich Autoren? Wer vertritt welche Position? Welche ist besser belegt?
-2. Welche Aspekte von [Kapitelthema] werden NICHT oder nur unzureichend abgedeckt?
-3. Gibt es einen erkennbaren Forschungstrend oder Paradigmenwechsel?
-
-Formatiere als Markdown mit klaren Überschriften.
+### Stelle 1
+- Zitat: „<1 bis 3 Sätze, Zeichen für Zeichen aus dem Markdown kopiert>"
+- Seite: <gedruckt> (PDF <n>)
+- Bezug: <FF / FF1 / H2 / Belegpflicht-Punkt>
+- Funktion: <Definition | Beleg | Zahl | Gegenargument | Methode>
+- Kapitel: <X oder X.Y>
+- Check: offen
 ```
 
-#### Prompt F — Diskussionsvorbereitung (nur für Diskussionskapitel)
+Regeln dafür:
+- Das Zitat wird **kopiert**, nie aus dem Gedächtnis formuliert oder geglättet. Fußnotenzeichen darfst du weglassen, Wörter änderst du nicht.
+- Mindestens 5 Wörter, sonst kann das Skript nicht prüfen, ob die Stelle eindeutig ist.
+- **Keine Auslassungen** (`[…]`, `...`). Brauchst du zwei Teile einer Passage, lege zwei Stellen an.
+- Das Zitat steht in **einer** Zeile.
+- Die Seite stammt aus der Seitenmarke über der Fundstelle (`gedruckt`). Steht dort `?`, schreibe `? (PDF <n>)`.
+- Bei Quellen ohne Seiten (Word, PowerPoint, EPUB) schreibst du statt der Seite den Abschnitt, z. B. `Seite: Abschnitt 3.2 Risikosteuerung`.
 
-```
-Bereite mein Diskussionskapitel vor:
+### Schritt 5: Fundstellen prüfen
 
-1. Theorie-Empirie-Abgleich: Welche theoretischen Vorhersagen werden bestätigt/widerlegt?
-2. Einordnung in den Forschungsstand
-3. Praktische Implikationen und Handlungsempfehlungen
-4. Limitationen ähnlicher Studien
-5. Offene Fragen und Forschungsbedarf
+Für jede Fundstellen-Datei:
 
-Immer mit konkreten Quellenbelegen (Autor, Jahr, Seite). Formatiere als Markdown.
-```
-
-**Welche Prompts du generierst, hängt vom Kapiteltyp ab:**
-
-| Kapiteltyp | Prompts |
-|---|---|
-| Theoretischer Rahmen | A + B + C + E |
-| Methodik | A + D |
-| Ergebnisse | A + C + E |
-| Diskussion | A + C + E + F |
-| Einleitung | A (nur Überblick) |
-| Fazit | A (nur Überblick) |
-
-### Schritt 4: User führt Auswertung in Gemini durch
-
-Gib dem User diese Anleitung:
-
-> **So wertest du die Quellen aus:**
->
-> 1. Öffne deinen **BA Quellenauswertung**-Gem in Gemini (gemini.google.com → Gems → BA Quellenauswertung)
-> 2. Stelle sicher, dass dein NotebookLM-Notebook verknüpft ist (du siehst es als Kontext-Quelle im Chat)
-> 3. Kopiere **Prompt A** und füge ihn in den Chat ein → warte auf die vollständige Antwort
-> 4. Gib dann die weiteren Prompts (B, C, D, E, F — je nach Kapitel) **einzeln** ein
-> 5. **Wichtig — Markdown-Output sichern:**
->    - Markiere die gesamte Antwort von Gemini und kopiere sie
->    - Oder klicke auf das **Kopieren-Symbol** neben der Antwort
->    - Gib die kopierten Antworten hier bei mir (Claude) ein — ich bringe sie ins richtige Format
->
-> **Tipp:** Falls eine Antwort zu lang wird und Gemini abbricht, sage "Fahre fort" oder "Bitte den Rest ausgeben".
->
-> **Tipp für NotebookLM-Weg:** Wenn du direkt in NotebookLM arbeitest statt im Gem, kannst du vor dem Chat bestimmte Quellen auswählen (Häkchen setzen), um die Antwort auf die kapitelrelevanten Quellen einzuschränken.
-
-### Schritt 5: Nachbearbeitung (Claude)
-
-Wenn der User den Gemini-Output zurückbringt, machst du Folgendes:
-
-1. **Prüfe die Struktur:** Entspricht der Output dem Format, das der Writer-Skill erwartet? (Siehe Template unten)
-2. **Ergänze fehlende Abschnitte:** Falls Gemini einen Abschnitt ausgelassen hat (z.B. Argumentationsketten, Forschungslücken), weise darauf hin und schlage einen Nachfrage-Prompt für Gemini vor
-3. **Markierungen setzen:**
-   - `[SEITE PRÜFEN]` bei Seitenangaben, die verdächtig rund oder unplausibel wirken
-   - **Seiten-Check gegen den Seitenbereich** (siehe unten)
-   - `[QUELLE ERGÄNZEN]` bei Aspekten, die keine Quellenabdeckung haben
-4. **Formatierung normalisieren:** Harvard-Zitierformat konsistent machen, Obsidian-Wiki-Links ergänzen wo nötig
-5. **Quellenverzeichnis prüfen:** Sind alle zitierten Quellen im Verzeichnis am Ende aufgeführt?
-6. **Datei erstellen:** Speichere als `02-quellen/Auswertung_Kapitel_[X]_[Kurztitel].md`
-
-#### Seiten-Check (Pflicht bei jeder Auswertung)
-
-Der häufigste Seitenfehler ist kein erfundenes Zitat, sondern ein Versatz: Gemini oder NotebookLM nennen die Seite im PDF statt der gedruckten Seitenzahl. Bei einem Artikel auf S. 319–340 wird aus der gedruckten S. 320 dann „S. 2". So prüfst du jede Fundstelle:
-
-1. Hole den Seitenbereich der Quelle aus dem Recherche-Protokoll (Spalte „Seiten").
-2. **Liegt die Seite im Bereich** → passt. Nichts ändern.
-3. **Liegt sie außerhalb, aber Seite + (Bereichsanfang − 1) liegt im Bereich** → typischer PDF-Versatz. Ersetze nicht still, sondern markiere: `[SEITE PRÜFEN: vermutlich S. 320 statt S. 2, PDF-Versatz]`.
-4. **Liegt sie auch dann außerhalb** → `[SEITE PRÜFEN: S. 500 liegt außerhalb von 319–340]`.
-5. **Kein Seitenbereich bekannt** (Buch, Report, Webseite) → nur prüfen, ob der Anker vorhanden ist. Fehlt der Anker → `[SEITE PRÜFEN]`.
-6. **Bereich beginnt bei S. 1** (Bücher, viele Reports): Ein PDF-Versatz ist dann rechnerisch nicht erkennbar, weil PDF- und gedruckte Seite oft nur durch Vorwort oder Deckblatt abweichen. Prüfe hier den Anker per Nachfrage-Prompt, wenn PDF-Seite und gedruckte Seite in der Auswertung gleich sind.
-
-Für alle markierten Stellen gibst du dem User einen Nachfrage-Prompt für NotebookLM oder den Gem, mit dem wörtlichen Anker:
-
-```
-In der Quelle [Autor, Jahr] steht die Passage, die mit „[Anker]" beginnt.
-1. Auf welcher PDF-Seite steht sie, gezählt ab Seite 1 inklusive Deckblatt?
-2. Welche Seitenzahl ist auf dieser Seite gedruckt (Kopf- oder Fußzeile)?
-Antworte nur mit den beiden Zahlen.
+```bash
+uv run "<SKILL>/scripts/fundstellen_pruefen.py" 02-quellen/fundstellen/Fundstellen_<kurzname>.md 02-quellen/markdown/<kurzname>.md
 ```
 
-Die gedruckte Zahl aus Frage 2 kommt in die Auswertung. Bleibt sie unklar, bleibt die Markierung stehen.
+Das Skript schreibt das Ergebnis in jede Stelle zurück:
+- `✅ belegt`: Zitat steht wörtlich auf der angegebenen Seite
+- `⚠️ korrigiert von S. x`: Zitat steht wörtlich, aber auf einer anderen Seite. Die Seite wurde anhand des Quelltexts korrigiert.
+- `❌ nicht gefunden [ZITAT PRÜFEN]`: Zitat steht so nicht in der Quelle. Suche die Stelle erneut (Schritt 4) und kopiere den Wortlaut neu. Gelingt das nicht, streiche die Stelle.
+- `⚠️ steht auf mehreren Seiten …`: Der Satz kommt mehrfach vor (z. B. Abstract und Fazit), keine Fundstelle passt zur Angabe. Die Seite wird nicht geraten, sondern auf `[SEITE PRÜFEN]` gesetzt. Prüfe die Seitenmarken der genannten PDF-Seiten und trage die richtige ein.
+- `❌ zu kurz` / `❌ Auslassung` / `❌ Zitat nicht in einer Zeile`: Zitat verlängern, aufteilen bzw. in eine Zeile mit schließendem Anführungszeichen schreiben und erneut prüfen.
+- `Seite: [SEITE PRÜFEN] (PDF n)`: Wortlaut belegt, aber die gedruckte Seitenzahl der Quelle ist unbekannt. Bei Quellen ohne Seitenmarken (Word, EPUB, OCR) setzt das Skript jede Zahlenangabe auf `[SEITE PRÜFEN]`, weil es sie nicht belegen kann.
 
-**Was Claude in der Nachbearbeitung NICHT tut:**
-- Keine neuen Quellen erfinden oder ergänzen
-- Keine inhaltlichen Aussagen ohne Quellengrundlage hinzufügen
-- Keine Quellen selbst auswerten (das hat Gemini gemacht)
+Fasse das Ergebnis für den User in einem Satz pro Quelle zusammen.
 
-### Schritt 6: Vollständigkeits-Check
+### Schritt 6: Kapitel-Auswertung schreiben
+
+Baue aus den geprüften Fundstellen die Datei `02-quellen/Auswertung_Kapitel_[X]_[Kurztitel].md` im Template unten:
+
+- Nur Stellen mit `✅ belegt` oder `⚠️ korrigiert`. Stellen mit `❌` kommen nicht hinein. Stellen mit `⚠️ steht auf mehreren Seiten` nur mit sichtbarem `[SEITE PRÜFEN]`.
+- Direkte Zitate übernimmst du wörtlich aus den Fundstellen, Paraphrasen formulierst du eng an der Fundstelle.
+- Jede Aussage trägt Autor, Jahr und Seite im Zitierstil aus dem Meta-Block von `04-fortschritt/Fortschritt.md`.
+- `[SEITE PRÜFEN]` bleibt sichtbar stehen und kommt zusätzlich in Abschnitt 7 „Offene Stellen".
+- Aspekte ohne passende Fundstelle markierst du mit `[QUELLE ERGÄNZEN]`.
+- Verlinke die Fundstellen-Dateien im Quellenverzeichnis (`[[Fundstellen_<kurzname>]]`).
+
+### Schritt 7: Vollständigkeits-Check
 
 Prüfe gegen das Recherche-Protokoll (`02-quellen/Recherche_Kapitel_[X]_*.md`):
 
-- Sind alle als "Relevanz 4–5" markierten Quellen in der Auswertung verarbeitet?
-- Gibt es Lücken, die eine Nachrecherche (Phase 2) erfordern?
+- Sind alle als „Relevanz 4–5" markierten Quellen ausgewertet? Fehlt die Datei (`fehlt` im Index), sag es dem User.
+- Hat jede Unterfrage und jede Hypothese mindestens eine belegte Stelle? Falls nicht:
+  > Für [Aspekt X] fehlen Belege. Du solltest mit dem Recherche-Skill (`studienarbeit-recherche`) nachlegen, bevor wir zum Schreiben übergehen.
 
-Falls ja, sage dem User:
-> Für [Aspekt X] fehlen Quellen. Du solltest mit dem Recherche-Skill (`studienarbeit-recherche`) nachlegen, bevor wir zum Schreiben übergehen.
-
-### Schritt 7: Fortschritt.md aktualisieren
+### Schritt 8: Fortschritt.md aktualisieren
 
 Trage in `04-fortschritt/Fortschritt.md` ein:
-- Phase 3 für Kapitel [X]: "Abgeschlossen"
-- Offene Punkte (z.B. `[QUELLE ERGÄNZEN]`-Stellen)
+- Phase 3 für Kapitel [X]: „Abgeschlossen"
+- Offene Punkte (`[QUELLE ERGÄNZEN]`, `[SEITE PRÜFEN]`, Quellen mit `fehlt` oder `braucht-ocr`)
 - Nächster Schritt: Phase 4 (Writer) für dieses Kapitel
 
 ## Erwartetes Dateiformat (Template)
@@ -357,6 +248,13 @@ Der User muss die Rohdaten vorher strukturiert haben (nicht von dir gefordert, a
 - **Beobachtungen:** Protokoll in `02-quellen/Empirik_[Kapitel_X]_Beobachtung_Protokoll.md` (chronologisch, mit Kategorien)
 
 ### Schritt E.2: Gem-Systemprompt für Empirik
+
+Der Empirik-Strang läuft weiter in Gemini. So richtet der User den Gem einmalig ein:
+
+> 1. Öffne [gemini.google.com](https://gemini.google.com) und klicke links auf **„Gems"** → **„Neuen Gem erstellen"**
+> 2. **Name:** `Empirik-Auswertung`
+> 3. **Anweisungen:** den Systemprompt einfügen, den ich dir gleich gebe
+> 4. Speichern und deine aufbereiteten Rohdaten (Schritt E.1) als Datei in den Gem-Chat hochladen
 
 Lies (oder generiere zielgerichtet basierend auf der Methode aus der Gliederung):
 
@@ -530,7 +428,7 @@ Falls ein Kapitel SOWOHL Literatur-Quellenauswertung (Phase 3, Strang A) ALS AUC
 
 ## Zusammenspiel mit anderen Skills
 
-- **Vor Phase 3** → `studienarbeit-recherche` sammelt die Quellen im NotebookLM-Notebook (User im Browser)
-- **Nach Phase 3** → `studienarbeit-writer` nutzt die Auswertung als Schreibgrundlage
-- **Zurück zu Phase 2** → Bei unzureichender Quellenlage Nachrecherche starten (User recherchiert selbst in NotebookLM im Browser)
+- **Vor Phase 3** → `studienarbeit-recherche` findet die Quellen; der User legt die Volltexte in `02-quellen/dateien/`
+- **Nach Phase 3** → `studienarbeit-writer` nutzt die Auswertung und die geprüften Fundstellen als Schreibgrundlage
+- **Zurück zu Phase 2** → Bei unzureichender Quellenlage Nachrecherche starten
 - **Beim Review (Phase 5)** → Der Reviewer prüft, ob die Quellen korrekt eingearbeitet wurden
